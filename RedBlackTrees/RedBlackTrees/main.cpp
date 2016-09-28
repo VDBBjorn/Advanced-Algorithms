@@ -4,6 +4,7 @@ using namespace std;
 
 int main() {
 	RedBlackTree<int,double> tree;
+	cout << tree.depth() << endl;
 
 	cin.get();
 	return 0;
