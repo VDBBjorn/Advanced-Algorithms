@@ -35,12 +35,7 @@ class RedBlackTree : public RedBlackNodePointer<T, D>
     friend class RedBlackNode<T, D>;
 
   public:
-    RedBlackTree() : color(RED)
-    {
-		
-    }
-
-    RedBlackTree(Color c) : color(c)
+    RedBlackTree() : RedBlackTree<T,D>(NullNodeImplementation)
     {
 		
     }
@@ -50,6 +45,8 @@ class RedBlackTree : public RedBlackNodePointer<T, D>
 
     bool end();
     int depth();
+	RedBlackTree<T,D> * ZoekSleutel(T);
+	void Rotate(bool left);
 };
 
 template<class T, class D>
@@ -58,7 +55,7 @@ RedBlackNode<T,D>* RedBlackTree<T,D>::NullNodeImplementation = new NullNode<T,D>
 template <class T, class D>
 bool RedBlackTree<T, D>::end()
 {
-	return this->get() == nullptr;
+	return this->get() == NullNodeImplementation;
 }
 
 template <class T, class D>
@@ -70,6 +67,25 @@ int RedBlackTree<T, D>::depth()
 	}
 	return max(this->get()->left->depth(), this->get()->right->depth()) + 1;
 }
+
+template<class T, class D>
+RedBlackTree<T,D> * RedBlackTree<T,D>::ZoekSleutel(T zoek) {
+	if(end() || this->get()->data == zoek) {
+		return this;
+	}
+	if(zoek < this->get()->data) {
+		return this->get()->left->ZoekSleutel(zoek);
+	}
+	return this->get()->right->ZoekSleutel(zoek);	
+}
+
+template<class T, class D>
+void * RedBlackTree<T,D>::Rotate(bool left) {
+	if(links) {
+		
+	}
+}
+
 
 /// <summary>
 /// Red-black node
@@ -100,6 +116,7 @@ public:
 
 template <class T, class D>
 RedBlackTree<T,D>* RedBlackNode<T,D>::NullTreeImplementation = new NullNode<T,D>();
+
 
 /// <summary>
 /// Representation of a null-tree
