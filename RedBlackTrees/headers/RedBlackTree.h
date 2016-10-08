@@ -37,10 +37,12 @@ class RedBlackTree : public RedBlackNodePointer<T, D>
   public:
     RedBlackTree() : color(RED)
     {
+		
     }
 
     RedBlackTree(Color c) : color(c)
     {
+		
     }
 
     Color color;
@@ -56,7 +58,7 @@ RedBlackNode<T,D>* RedBlackTree<T,D>::NullNodeImplementation = new NullNode<T,D>
 template <class T, class D>
 bool RedBlackTree<T, D>::end()
 {
-	return this->get() == this->NullNodeImplementation;
+	return this->get() == nullptr;
 }
 
 template <class T, class D>

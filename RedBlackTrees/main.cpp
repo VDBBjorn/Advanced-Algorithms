@@ -6,6 +6,6 @@ int main()
 {
     RedBlackTree<int,double> tree;
 	
-    cout << "bjorn " << tree.depth() << endl;	
+    cout << "depth " << tree.depth() << endl;	
     return 0;
 }

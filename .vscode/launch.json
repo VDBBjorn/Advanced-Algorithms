@@ -19,7 +19,25 @@
             },
             "windows": {
                 "MIMode": "gdb"
-            }
+            },
+            "miDebuggerPath": "C:/tools/mingw64/bin/gdb.exe"
+        },
+        {
+            "name": "C++ Attach",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceRoot}/RedBlackTrees/main.exe",
+            "processId": "${command.pickProcess}",
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            },
+            "windows": {
+                "MIMode": "gdb"
+            },
+            "miDebuggerPath": "C:/tools/mingw64/bin/gdb.exe"
         }
     ]
 }
