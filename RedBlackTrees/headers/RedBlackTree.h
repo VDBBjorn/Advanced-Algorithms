@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 #include <queue>
 #include <memory>
@@ -32,27 +31,27 @@ using RedBlackNodePointer = std::unique_ptr<RedBlackNode<T, D>>;
 template <class T, class D>
 class RedBlackTree : public RedBlackNodePointer<T, D>
 {
-	using RedBlackNodePointer<T, D>::RedBlackNodePointer;
-	friend class RedBlackNode<T, D>;
-public:
-	RedBlackTree(): color(RED)
-	{
-	}
+    using RedBlackNodePointer<T, D>::RedBlackNodePointer;
+    friend class RedBlackNode<T, D>;
 
-	RedBlackTree(Color c) : color(c)
-	{
-	}
+  public:
+    RedBlackTree() : color(RED)
+    {
+    }
 
-	~RedBlackTree()
-	{
-	}
+    RedBlackTree(Color c) : color(c)
+    {
+    }
 
-	Color color;
-	RedBlackNode<T, D>* NullNodeImplementation = new NullNode<T, D>();
+    Color color;
+    static RedBlackNode<T, D> * NullNodeImplementation;
 
-	bool end();
-	int depth();
+    bool end();
+    int depth();
 };
+
+template<class T, class D>
+RedBlackNode<T,D>* RedBlackTree<T,D>::NullNodeImplementation = new NullNode<T,D>();
 
 template <class T, class D>
 bool RedBlackTree<T, D>::end()
@@ -90,12 +89,15 @@ public:
 	D data;
 	Color color;
 
-	RedBlackTree<T, D>* NullTreeImplementation = new NullTree<T, D>();
+	static RedBlackTree<T, D>* NullTreeImplementation;
 
 	RedBlackTree<T, D>* parent;
 	RedBlackTree<T, D>* left;
 	RedBlackTree<T, D>* right;
 };
+
+template <class T, class D>
+RedBlackTree<T,D>* RedBlackNode<T,D>::NullTreeImplementation = new NullNode<T,D>();
 
 /// <summary>
 /// Representation of a null-tree

@@ -1,11 +1,11 @@
 #include <iostream>
-#include "RedBlackTree.h"
+#include "headers/RedBlackTree.h"
 using namespace std;
 
-int main() {
-	RedBlackTree<int,double> tree;
-	cout << tree.depth() << endl;
-
-	cin.get();
-	return 0;
+int main()
+{
+    RedBlackTree<int,double> tree;
+	
+    cout << "bjorn " << tree.depth() << endl;	
+    return 0;
 }
