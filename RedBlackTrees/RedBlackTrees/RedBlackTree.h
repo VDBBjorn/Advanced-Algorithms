@@ -31,26 +31,26 @@ using RedBlackNodePointer = std::unique_ptr<RedBlackNode<T, D>>;
 template <class T, class D>
 class RedBlackTree : public RedBlackNodePointer<T, D>
 {
-    using RedBlackNodePointer<T, D>::RedBlackNodePointer;
-    friend class RedBlackNode<T, D>;
+	using RedBlackNodePointer<T, D>::RedBlackNodePointer;
+	friend class RedBlackNode<T, D>;
 
-  public:
-    RedBlackTree() : RedBlackTree<T,D>(NullNodeImplementation)
-    {
-		
-    }
+public:
+	RedBlackTree() : RedBlackTree<T, D>(NullNodeImplementation)
+	{
 
-    Color color;
-    static RedBlackNode<T, D> * NullNodeImplementation;
+	}
 
-    bool end();
-    int depth();
-	RedBlackTree<T,D> * ZoekSleutel(T);
+	Color color;
+	static RedBlackNode<T, D> * NullNodeImplementation;
+
+	bool end();
+	int depth();
+	RedBlackTree<T, D> * ZoekSleutel(T);
 	void Rotate(bool left);
 };
 
 template<class T, class D>
-RedBlackNode<T,D>* RedBlackTree<T,D>::NullNodeImplementation = new NullNode<T,D>();
+RedBlackNode<T, D>* RedBlackTree<T, D>::NullNodeImplementation = new NullNode<T, D>();
 
 template <class T, class D>
 bool RedBlackTree<T, D>::end()
@@ -69,20 +69,20 @@ int RedBlackTree<T, D>::depth()
 }
 
 template<class T, class D>
-RedBlackTree<T,D> * RedBlackTree<T,D>::ZoekSleutel(T zoek) {
-	if(end() || this->get()->data == zoek) {
+RedBlackTree<T, D> * RedBlackTree<T, D>::ZoekSleutel(T zoek) {
+	if (end() || this->get()->data == zoek) {
 		return this;
 	}
-	if(zoek < this->get()->data) {
+	if (zoek < this->get()->data) {
 		return this->get()->left->ZoekSleutel(zoek);
 	}
-	return this->get()->right->ZoekSleutel(zoek);	
+	return this->get()->right->ZoekSleutel(zoek);
 }
 
 template<class T, class D>
-void * RedBlackTree<T,D>::Rotate(bool left) {
-	if(links) {
-		
+void RedBlackTree<T, D>::Rotate(bool left) {
+	if (left) {
+
 	}
 }
 
@@ -95,11 +95,11 @@ class RedBlackNode
 {
 	friend class RedBlackTree<T, D>;
 public:
-	RedBlackNode(Color c, RedBlackTree<T, D>* p): color(c), parent(p)
+	RedBlackNode(Color c, RedBlackTree<T, D>* p) : color(c), parent(p)
 	{
 	}
 
-	RedBlackNode(const T& k, const D& d): key(k), data(d), color(RED), parent(nullptr), left(NullTreeImplementation), right(NullTreeImplementation)
+	RedBlackNode(const T& k, const D& d) : key(k), data(d), color(RED), parent(nullptr), left(NullTreeImplementation), right(NullTreeImplementation)
 	{
 	}
 
@@ -115,7 +115,7 @@ public:
 };
 
 template <class T, class D>
-RedBlackTree<T,D>* RedBlackNode<T,D>::NullTreeImplementation = new NullNode<T,D>();
+RedBlackTree<T, D>* RedBlackNode<T, D>::NullTreeImplementation = new NullNode<T, D>();
 
 
 /// <summary>
@@ -125,8 +125,8 @@ template <class T, class D>
 class NullTree : public RedBlackTree<T, D>
 {
 public:
-	NullTree<T,D>() : RedBlackTree<T,D>() {}
-	NullTree<T, D>(RedBlackTree<T, D>&& tree): RedBlackTree<T, D>(move(tree))
+	NullTree<T, D>() : RedBlackTree<T, D>() {}
+	NullTree<T, D>(RedBlackTree<T, D>&& tree) : RedBlackTree<T, D>(move(tree))
 	{
 		RedBlackTree<T, D>::color = BLACK;
 	}
