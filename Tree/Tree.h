@@ -31,10 +31,19 @@ public:
 	Tree& operator=(const Tree<T, D>&) = delete;
 	virtual Tree<T, D>* Search(const T&) = 0;
 	virtual Tree<T, D>* Add(const T&, const D&) = 0;
+	virtual void Delete(const T&) = 0;
+
+
 	bool end();
 	int depth();
-	static void write(ostream & os);
-	ostream& operator<<(Tree<T, D>& t, ostream& os);
+	int NumberOfNodes();
+	virtual void write(ostream& os);
+
+	friend ostream& operator<<(ostream& os, Tree<T, D>& t)
+	{
+		t.write(os);
+		return os;
+	}
 };
 
 template <class T, class D>
@@ -59,16 +68,21 @@ int Tree<T, D>::depth()
 }
 
 template <class T, class D>
-void Tree<T, D>::write(ostream& os) {
-	//TODO
-
+int Tree<T, D>::NumberOfNodes()
+{
+	if (end()) { return 0; }
+	return (this->get()->left->depth() + this->get()->right->depth() + 1);
 }
 
 template <class T, class D>
-ostream& Tree<T, D>::operator<<(Tree<T, D>& t, ostream& os)
+void Tree<T, D>::write(ostream& os)
 {
-	t.schrijf(os);
-	return os;
+	if (this->get() != nullptr)
+	{
+		this->get()->left->write(os);
+		os << this->get()->data << " ";
+		this->get()->right->write(os);
+	}
 }
 
 template <class T, class D>
