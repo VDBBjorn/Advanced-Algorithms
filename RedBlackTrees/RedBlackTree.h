@@ -10,13 +10,13 @@ class RedBlackTree;
 template <class T, class D>
 class RedBlackNode;
 
-enum Color
+enum class Color
 {
 	BLACK,
 	RED
 };
 
-enum Status
+enum class Status
 {
 	UNKNOWN=1,
 	ROOT=2,
@@ -30,15 +30,15 @@ class RedBlackTree : public Tree<T, D>
 private:
 	using Tree<T, D>::Tree;
 public:
-	RedBlackTree() : RedBlackTree<T, D>(RED)
+	RedBlackTree() : RedBlackTree<T, D>(Color::RED)
 	{
 	}
 
-	RedBlackTree(Color c) : color(c), status(UNKNOWN)
+	RedBlackTree(Color c) : color(c), status(Status::UNKNOWN)
 	{
 	}
 
-	RedBlackTree(Status s) : color(RED), status(s)
+	RedBlackTree(Status s) : color(Color::RED), status(s)
 	{
 	}
 
@@ -49,7 +49,7 @@ public:
 	void Delete(const T&) override;
 	RedBlackTree<T, D>* GetSibling();
 	void Rotate(bool left);
-	void write(ostream& os) override;
+	void Write(ostream& os) override;
 };
 
 template <class T, class D>
@@ -57,7 +57,7 @@ RedBlackTree<T, D>* RedBlackTree<T, D>::Search(const T& search)
 {
 	if (this->end() || this->get()->key == search)
 	{
-		this->status = ROOT;
+		this->status = Status::ROOT;
 		return this;
 	}
 
@@ -86,7 +86,7 @@ RedBlackTree<T, D>* RedBlackTree<T, D>::Add(const T& key, const D& data)
 	RedBlackTree<T, D>* parent = new RedBlackTree<T, D>();
 	if (tree->end() || tree->get()->key == key)
 	{
-		tree->status = ROOT;
+		tree->status = Status::ROOT;
 	}
 	else
 	{
@@ -107,24 +107,30 @@ RedBlackTree<T, D>* RedBlackTree<T, D>::Add(const T& key, const D& data)
 	if (tree->end())
 	{
 		RedBlackNode<T, D>* node;
-		if (tree->status == ROOT)
+		auto color = tree->color;
+		if (tree->status == Status::ROOT)
 		{
-			node = new RedBlackNode<T, D>(key, data, new RedBlackTree<T, D>(BLACK));
+			node = new RedBlackNode<T, D>(key, data, new RedBlackTree<T, D>(Color::BLACK));
+			color = Color::BLACK;
 		}
 		else
 		{
 			node = new RedBlackNode<T, D>(key, data, parent);
 		}
+		auto status = tree->status;
 		*tree = static_cast<RedBlackTree<T, D>>(static_cast<unique_ptr<RedBlackNode<T, D>>>(node));
+		tree->status = status;
+		tree->color = color;
+		parent = static_cast<RedBlackTree<T, D>*>(tree->get()->parent);
 
-		bool doubleRed = (!parent->end() && parent->color == RED);
+		bool doubleRed = (!parent->end() && parent->color == Color::RED);
 		while (doubleRed)
 		{
 			TurnBlack(tree);
 
 			assert(!tree->end());
 			parent = static_cast<RedBlackTree<T, D>*>(tree->get()->parent);
-			doubleRed = (tree->color == RED && parent != nullptr && parent->color == RED);
+			doubleRed = (tree->color == Color::RED && parent != nullptr && parent->color == Color::RED);
 		}
 	}
 	return tree;
@@ -138,12 +144,27 @@ void TurnBlack(RedBlackTree<T, D>* tree)
 
 	// Simpele geval. De grootouder is zwart, de ouder en zijn broer rood.
 	// Maak de grootouder rood, ouder en broer zwart. (zwart zakt 1 niveau).
-	if (static_cast<RedBlackTree<T, D>*>(grandParent->get()->left)->color == RED && static_cast<RedBlackTree<T, D>*>(grandParent->get()->right)->color == RED)
+	if (static_cast<RedBlackTree<T, D>*>(grandParent->get()->left)->color == Color::RED && static_cast<RedBlackTree<T, D>*>(grandParent->get()->right)->color == Color::RED)
 	{
-		static_cast<RedBlackTree<T, D>*>(grandParent)->color = RED;
-		static_cast<RedBlackTree<T, D>*>(grandParent->get()->left)->color = BLACK;
-		static_cast<RedBlackTree<T, D>*>(grandParent->get()->right)->color = BLACK;
+		static_cast<RedBlackTree<T, D>*>(grandParent)->color = Color::RED;
+		static_cast<RedBlackTree<T, D>*>(grandParent->get()->left)->color = Color::BLACK;
+		static_cast<RedBlackTree<T, D>*>(grandParent->get()->right)->color = Color::BLACK;
 	}
+	TurnRootBlack(tree);
+}
+
+template <class T, class D>
+void TurnRootBlack(RedBlackTree<T,D> * tree)
+{
+	RedBlackTree<T, D>* top = tree;
+	RedBlackTree<T, D>* previous = nullptr;
+	while (top->get() != nullptr)
+	{
+		previous = top;
+		top = static_cast<RedBlackTree<T, D>*>(top->get()->parent);
+	}
+	previous->color = Color::BLACK;
+	previous->status = Status::ROOT;
 }
 
 template <class T, class D>
@@ -197,13 +218,13 @@ void RedBlackTree<T, D>::Rotate(bool left)
 
 
 template <class T, class D>
-void RedBlackTree<T, D>::write(ostream& os)
+void RedBlackTree<T, D>::Write(ostream& os)
 {
 	if (this->get() != nullptr)
 	{
-		this->get()->left->write(os);
+		this->get()->left->Write(os);
 		os << this->get()->key << " (" << static_cast<int>(this->status) << ") ";
-		this->get()->right->write(os);
+		this->get()->right->Write(os);
 	}
 }
 
@@ -219,7 +240,7 @@ public:
 template <class T, class D>
 RedBlackNode<T, D>::RedBlackNode(const T& k, const D& d, RedBlackTree<T, D>* parent): Node<T, D>(k, d)
 {
-	this->left = new RedBlackTree<T, D>(LEFT);
-	this->right = new RedBlackTree<T, D>(RIGHT);
+	this->left = new RedBlackTree<T, D>(Status::LEFT);
+	this->right = new RedBlackTree<T, D>(Status::RIGHT);
 	this->parent = parent;
 }

@@ -37,11 +37,11 @@ public:
 	bool end();
 	int depth();
 	int NumberOfNodes();
-	virtual void write(ostream& os);
+	virtual void Write(ostream& os);
 
 	friend ostream& operator<<(ostream& os, Tree<T, D>& t)
 	{
-		t.write(os);
+		t.Write(os);
 		return os;
 	}
 };
@@ -75,13 +75,13 @@ int Tree<T, D>::NumberOfNodes()
 }
 
 template <class T, class D>
-void Tree<T, D>::write(ostream& os)
+void Tree<T, D>::Write(ostream& os)
 {
 	if (this->get() != nullptr)
 	{
-		this->get()->left->write(os);
+		this->get()->left->Write(os);
 		os << this->get()->data << " ";
-		this->get()->right->write(os);
+		this->get()->right->Write(os);
 	}
 }
 
