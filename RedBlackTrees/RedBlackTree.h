@@ -1,6 +1,7 @@
 #pragma once
 #include "../Tree/Tree.h"
 #include <string>
+#include <cassert>
 
 using namespace std;
 
@@ -116,24 +117,33 @@ RedBlackTree<T, D>* RedBlackTree<T, D>::Add(const T& key, const D& data)
 		}
 		*tree = static_cast<RedBlackTree<T, D>>(static_cast<unique_ptr<RedBlackNode<T, D>>>(node));
 
-		//Case 1: K's parent P is black: OK
-		if (parent->end() || parent->color == BLACK)
+		bool doubleRed = (!parent->end() && parent->color == RED);
+		while (doubleRed)
 		{
-			return tree;
-		}
+			TurnBlack(tree);
 
-		//Case 2: K's parent P is red
-		//Case 2a: P's sibling S is black or null
-		RedBlackTree<T, D>* sibling = tree->GetSibling();
-		if (sibling->end() || sibling->color == BLACK)
-		{
-		}
-		//Case 2b: P's sibling S is red
-		else
-		{
+			assert(!tree->end());
+			parent = static_cast<RedBlackTree<T, D>*>(tree->get()->parent);
+			doubleRed = (tree->color == RED && parent != nullptr && parent->color == RED);
 		}
 	}
 	return tree;
+}
+
+template <class T, class D>
+void TurnBlack(RedBlackTree<T, D>* tree)
+{
+	RedBlackTree<T, D>* parent = static_cast<RedBlackTree<T, D>*>(tree->get()->parent);
+	RedBlackTree<T, D>* grandParent = static_cast<RedBlackTree<T, D>*>(parent->get()->parent);
+
+	// Simpele geval. De grootouder is zwart, de ouder en zijn broer rood.
+	// Maak de grootouder rood, ouder en broer zwart. (zwart zakt 1 niveau).
+	if (static_cast<RedBlackTree<T, D>*>(grandParent->get()->left)->color == RED && static_cast<RedBlackTree<T, D>*>(grandParent->get()->right)->color == RED)
+	{
+		static_cast<RedBlackTree<T, D>*>(grandParent)->color = RED;
+		static_cast<RedBlackTree<T, D>*>(grandParent->get()->left)->color = BLACK;
+		static_cast<RedBlackTree<T, D>*>(grandParent->get()->right)->color = BLACK;
+	}
 }
 
 template <class T, class D>
@@ -192,7 +202,7 @@ void RedBlackTree<T, D>::write(ostream& os)
 	if (this->get() != nullptr)
 	{
 		this->get()->left->write(os);
-		os << this->get()->data << " (" << static_cast<int>(this->status) << ") ";
+		os << this->get()->key << " (" << static_cast<int>(this->status) << ") ";
 		this->get()->right->write(os);
 	}
 }
