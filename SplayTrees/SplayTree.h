@@ -19,6 +19,7 @@ public:
 	void Delete(const T&) override;
 
 	void Rotate(bool left);
+	void Splay();
 };
 
 template <class T, class D>
@@ -36,9 +37,14 @@ SplayTree<T, D>* SplayTree<T, D>::Search(const T& search)
 }
 
 template <class T, class D>
-SplayTree<T, D>* SplayTree<T, D>::Add(const T&, const D&)
+SplayTree<T, D>* SplayTree<T, D>::Add(const T& s, const D& d)
 {
-	return nullptr;
+	SplayTree<T, D>* tree = Search(s);
+	SplayTree<T, D> nieuw(std::move(new SplayNode<T, D>(s, d)));
+	nieuw->parent = tree;
+	*tree = std::move(nieuw);
+	tree->Splay();
+	return tree;
 }
 
 template <class T, class D>
@@ -76,16 +82,30 @@ void SplayTree<T, D>::Rotate(bool left)
 }
 
 template <class T, class D>
+void SplayTree<T, D>::Splay()
+{
+	cout << "beginnen met splay" << endl;
+}
+
+template <class T, class D>
 class SplayNode : public Node<T, D>
 {
 private:
 	using Node<T, D>::Node;
 public:
+	SplayNode(const T&, const D&);
 	SplayNode(const T&, const D&, SplayTree<T, D>*);
 };
+
+template <class T, class D>
+SplayNode<T, D>::SplayNode(const T& s, const D& d): SplayNode<T,D>(s,d, new SplayTree<T,D>())
+{	
+}
 
 template <class T, class D>
 SplayNode<T, D>::SplayNode(const T& s, const D& d, SplayTree<T, D>* parent): Node<T,D>(s,d)
 {
 	this->parent = parent;
+	this->left = new SplayTree<T, D>();
+	this->right = new SplayTree<T, D>();
 }
