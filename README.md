@@ -9,7 +9,7 @@ It is also possible to use these with the GNU C++ compiler, although some notati
 
 ## TODO
 * Red-Black trees
-	* Search
+	* ~~Search~~	
 	* Add
 		* Bottom-up
 		* Top-down
@@ -18,7 +18,7 @@ It is also possible to use these with the GNU C++ compiler, although some notati
 		* Top-down
 
 * Splay trees
-	* Search
+	* ~~Search~~
 	* Add
 		* Bottom-up
 		* Top-down
@@ -35,14 +35,14 @@ It is also possible to use these with the GNU C++ compiler, although some notati
 * Longest Common Sequence
 
 * B-Trees
-	* Search
+	* ~~Search~~
 	* Add
 	* Delete
 	
 * Extendible hashing
 * Linear hashing
 
-* Quadtrees
+* ~~Quadtrees~~
 * K-D trees
 
 * Heaps
