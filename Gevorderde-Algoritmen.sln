@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LongestCommonSequence", "Lo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BTrees", "BTrees\BTrees.vcxproj", "{D0534412-66F4-4FD7-B452-2A837BF07671}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadTrees", "QuadTrees\QuadTrees.vcxproj", "{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,16 @@ Global
 		{D0534412-66F4-4FD7-B452-2A837BF07671}.Release|x64.Build.0 = Release|x64
 		{D0534412-66F4-4FD7-B452-2A837BF07671}.Release|x86.ActiveCfg = Release|Win32
 		{D0534412-66F4-4FD7-B452-2A837BF07671}.Release|x86.Build.0 = Release|Win32
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Debug|x64.ActiveCfg = Debug|x64
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Debug|x64.Build.0 = Debug|x64
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Debug|x86.ActiveCfg = Debug|Win32
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Debug|x86.Build.0 = Debug|Win32
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Release|x64.ActiveCfg = Release|x64
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Release|x64.Build.0 = Release|x64
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Release|x86.ActiveCfg = Release|Win32
+		{A9B86D83-7B1F-4FF4-AEE2-D2DD3972E0C8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

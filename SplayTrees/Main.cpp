@@ -1,40 +1,28 @@
 #include <iostream>
 #include "SplayTree.h"
+#include "PointGenerator.h"
+#include "CsvData.h"
 using namespace std;
+
+int aantalDatapunten = 6000;
 
 void AddTest()
 {
-
-	SplayTree<int, double> tree;
-
-	cout << tree << endl;
-	tree.Add(5, 3.1);
-
-	cout << tree << endl;
-	tree.Add(4, 3.1);
-
-	cout << tree << endl;
-	tree.Add(10, 3.9);
-
-	cout << tree << endl;
-	tree.Add(2, 3.7);
-
-	cout << tree << endl;
-	tree.Add(7, 3.3);
-
-	cout << tree << endl;
-	tree.Add(6, 3.9);
-
-	cout << tree << endl;
-	tree.Add(11, 3.7);
-
-	cout << tree << endl;
-	tree.Add(1, 3.3);
-
-	cout << tree << endl;
-
-	cout << "depth " << tree.depth() << endl;
-	cout << tree << endl;
+	CsvData grafiek("data", ',');
+	PointGenerator dePuntgenerator;
+	SplayTree<double, unsigned int> tree;
+	vector<double> dieptedata;
+	int aantal = 0;
+	for (int i = 0; i<aantalDatapunten; i++) {
+		double nupunt = dePuntgenerator.GetPoint();
+		tree.Add(nupunt, i);
+		aantal++;
+		if (aantal * 50 >= aantalDatapunten) {
+			dieptedata.push_back(tree.Depth());
+			aantal = 0;
+		}
+	}
+	grafiek.voegDataToe(dieptedata);
 }
 
 int main()

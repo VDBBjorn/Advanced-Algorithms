@@ -14,12 +14,12 @@ int main()
 	tree.Add(7, 3.3);
 
 
-	cout << "depth " << tree.depth() << endl;
+	cout << "depth " << tree.Depth() << endl;
 	cout << tree << endl;
 
 	tree.Rotate(true);
 
-	cout << "depth " << tree.depth() << endl;
+	cout << "Depth " << tree.Depth() << endl;
 	cout << tree << endl;
 	cin.get();
 	return 0;

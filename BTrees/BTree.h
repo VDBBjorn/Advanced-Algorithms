@@ -1,7 +1,7 @@
 #pragma once
 #include "Disk.h"
 #include <stack>
-//betekenis m: orde van de B-tree (maximaal m kinderen en m-1 sleutels)
+//betekenis m: orde van de B-tree (maximaal m children en m-1 sleutels)
 
 using namespace std;
 

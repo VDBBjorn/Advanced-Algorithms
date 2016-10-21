@@ -296,3 +296,6 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
+
+*.vcxproj*
+*.vcxproj.filters*

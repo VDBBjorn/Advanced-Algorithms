@@ -43,12 +43,8 @@ public:
 template <class T, class D>
 SplayTree<T, D>* SplayTree<T, D>::Search(const T& search)
 {
-	/*if (!this->end() && !this->get()->parent->end())
-	{
-		return Search(search, static_cast<SplayTree<T, D>*>(this->get()->parent));
-	}
-	return Search(search, new SplayTree<T, D>());*/
-	return nullptr;
+	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(this->get()->parent);
+	return Search(search, parent);
 }
 
 template <class T, class D>
@@ -127,14 +123,7 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 {
 	SplayTree<T, D>* c = this;
 	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(c->get()->parent);
-	if(!parent->end())
-	{
-		SplayTree<T, D>* grandparent = static_cast<SplayTree<T, D>*>(parent->get()->parent);
-		if(!grandparent->end())
-		{
-			grandparent->Rotate(true);
-		}
-	}
+	
 	/*while (parent != nullptr) {
 		//parent is root
 		if (parent->end())

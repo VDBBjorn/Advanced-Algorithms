@@ -12,7 +12,7 @@ int main()
 	tree.Add(2, 3.7);
 	tree.Add(7, 3.3);
 
-	cout << "depth " << tree.depth() << endl;
+	cout << "Depth " << tree.Depth() << endl;
 	cout << "number " << tree.NumberOfNodes() << endl;
 	cout << tree << endl;
 	cin.get();

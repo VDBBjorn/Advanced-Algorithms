@@ -37,7 +37,7 @@ public:
 
 
 	bool end();
-	int depth();
+	int Depth();
 	int NumberOfNodes();
 	virtual void Write(ostream& os);
 
@@ -63,17 +63,17 @@ template <class T, class D>
 bool Tree<T, D>::end() { return this->get() == nullptr; }
 
 template <class T, class D>
-int Tree<T, D>::depth()
+int Tree<T, D>::Depth()
 {
 	if (end()) { return 0; }
-	return max(this->get()->left->depth(), this->get()->right->depth()) + 1;
+	return max(this->get()->left->Depth(), this->get()->right->Depth()) + 1;
 }
 
 template <class T, class D>
 int Tree<T, D>::NumberOfNodes()
 {
 	if (end()) { return 0; }
-	return (this->get()->left->depth() + this->get()->right->depth() + 1);
+	return (this->get()->left->Depth() + this->get()->right->Depth() + 1);
 }
 
 template <class T, class D>
