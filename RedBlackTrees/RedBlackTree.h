@@ -49,6 +49,7 @@ public:
 	void Delete(const T&) override;
 	RedBlackTree<T, D>* GetSibling();
 	void Write(ostream& os) override;
+	void Rotate(bool) override;
 };
 
 template <class T, class D>
@@ -196,6 +197,12 @@ void RedBlackTree<T, D>::Write(ostream& os)
 		os << this->get()->key << " (" << static_cast<int>(this->status) << ") ";
 		this->get()->right->Write(os);
 	}
+}
+
+template <class T, class D>
+void RedBlackTree<T, D>::Rotate(bool)
+{
+	//TODO
 }
 
 template <class T, class D>

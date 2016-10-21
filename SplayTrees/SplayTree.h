@@ -3,14 +3,6 @@
 #include <string>
 #include <cassert>
 
-enum class Status
-{
-	UNKNOWN = 1,
-	ROOT = 2,
-	LEFT = 3,
-	RIGHT = 4
-};
-
 template <class T, class D>
 class SplayTree;
 template <class T, class D>
@@ -34,22 +26,16 @@ class SplayTree : public Tree<T, D>
 private:
 	using Tree<T, D>::Tree;
 public:
-	SplayTree() : SplayTree<T, D>(Status::UNKNOWN)
+	SplayTree()
 	{
 	}
-
-	SplayTree(Status s) : status(s)
-	{
-	}
-
-	Status status;
 
 	SplayTree<T, D>* Search(const T&) override;
 	SplayTree<T, D>* Search(const T&, SplayTree<T, D>*&);
 	SplayTree<T, D>* Add(const T&, const D&) override;
 	void Delete(const T&) override;
 
-	void Rotate(bool left);
+	void Rotate(bool left) override;
 	SplayTree<T, D>* BottomUpSplay();
 	void Write(ostream& os) override;
 };
@@ -70,7 +56,6 @@ SplayTree<T, D>* SplayTree<T, D>::Search(const T& search, SplayTree<T, D>*& pare
 {
 	if (this->end() || this->get()->key == search)
 	{
-		this->status = Status::ROOT;
 		return this;
 	}
 
@@ -83,15 +68,12 @@ SplayTree<T, D>* SplayTree<T, D>::Search(const T& search, SplayTree<T, D>*& pare
 		if (search < tree->get()->key)
 		{
 			tree = static_cast<SplayTree<T, D>*>(tree->get()->left);
-			left = true;
 		}
 		else
 		{
 			tree = static_cast<SplayTree<T, D>*>(tree->get()->right);
-			left = false;
 		}
 	}
-	tree->status = (left ? Status::LEFT : Status::RIGHT);
 	return tree;
 }
 
@@ -101,9 +83,7 @@ SplayTree<T, D>* SplayTree<T, D>::Add(const T& s, const D& d)
 	SplayTree<T, D>* parent = new SplayTree<T, D>();
 	SplayTree<T, D>* tree = Search(s, parent);
 	auto node = new SplayNode<T, D>(s, d, parent);
-	Status status = tree->status;
 	*tree = static_cast<SplayTree<T, D>>(static_cast<unique_ptr<SplayNode<T, D>>>(node));
-	tree->status = status;
 	tree->BottomUpSplay();
 	return tree;
 }
@@ -115,7 +95,7 @@ void SplayTree<T, D>::Delete(const T&)
 }
 
 /// <summary>
-/// Rotates the tree to the left
+/// Rotates the tree
 /// </summary>
 /// <param name="left">if set to <c>true</c> the tree gets rotated left. If set to <c>false</c> the tree gets rotated right.</param>
 template <class T, class D>
@@ -125,8 +105,13 @@ void SplayTree<T, D>::Rotate(bool left)
 	if (left)
 	{
 		*q = static_cast<SplayTree<T, D>>(move(*(this->get()->right)));
+		//q->get()->parent = move(this->get()->parent);
 		*(this->get()->right) = move(*(q->get()->left));
+		/*if (!this->get()->right->end())
+			this->get()->right->get()->parent = this;*/
 		*(q->get()->left) = move(*this);
+		/*if (!q->get()->left->end())
+			q->get()->left->get()->parent = q;*/
 	}
 	else
 	{
@@ -142,8 +127,15 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 {
 	SplayTree<T, D>* c = this;
 	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(c->get()->parent);
-
-	while (parent != nullptr) {
+	if(!parent->end())
+	{
+		SplayTree<T, D>* grandparent = static_cast<SplayTree<T, D>*>(parent->get()->parent);
+		if(!grandparent->end())
+		{
+			grandparent->Rotate(true);
+		}
+	}
+	/*while (parent != nullptr) {
 		//parent is root
 		if (parent->end())
 		{
@@ -186,7 +178,7 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 			c = grandparent;
 			parent = static_cast<SplayTree<T, D>*>(grandparent->get()->parent);
 		}
-	}
+	}*/
 	return c;
 }
 
@@ -196,7 +188,7 @@ void SplayTree<T, D>::Write(ostream& os)
 	if (!this->end())
 	{
 		this->get()->left->Write(os);
-		os << this->get()->key << " (" << static_cast<int>(this->status) << ") ";
+		os << this->get()->key << " ";
 		this->get()->right->Write(os);
 	}
 }
