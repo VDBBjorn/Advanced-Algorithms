@@ -48,7 +48,6 @@ public:
 	RedBlackTree<T, D>* Add(const T&, const D&) override;
 	void Delete(const T&) override;
 	RedBlackTree<T, D>* GetSibling();
-	void Rotate(bool left);
 	void Write(ostream& os) override;
 };
 
@@ -185,35 +184,6 @@ RedBlackTree<T, D>* RedBlackTree<T, D>::GetSibling()
 		return static_cast<RedBlackTree<T, D>*>(parent->get()->right);
 	}
 	return static_cast<RedBlackTree<T, D>*>(parent->get()->left);
-}
-
-template <class T, class D>
-void RedBlackTree<T, D>::Rotate(bool left)
-{
-	RedBlackTree<T, D> c;
-	if (left)
-	{
-		c = move(this->get()->right);
-		this->get()->right = move(c->left);
-		if (this->get()->right != nullptr)
-		{
-			this->get()->right->parent = this->get();
-			c->left = move(*this);
-		}
-	}
-	else
-	{
-		c = move(this->get()->left);
-		this->get()->left = move(c->right);
-		if (this->get()->left != nullptr)
-		{
-			this->get()->left->parent = this->get();
-			c->right = move(*this);
-		}
-		*this = move(c);
-		this->get()->parent = this->get()->left->parent;
-		this->get()->left->parent = this->get();
-	}
 }
 
 

@@ -14,18 +14,23 @@ class SearchTree : public Tree<T, D>
 private:
 	using Tree<T, D>::Tree;
 public:
-	SearchTree() {
+	SearchTree()
+	{
 	}
 
 	SearchTree<T, D>* Search(const T&) override;
 	SearchTree<T, D>* Add(const T&, const D&) override;
 	void Delete(const T&) override;
+	void Rotate(bool) override;
 };
 
 template <class T, class D>
 SearchTree<T, D>* SearchTree<T, D>::Search(const T& search)
 {
-	if (this->end() || this->get()->key == search) { return this; }
+	if (this->end() || this->get()->key == search)
+	{
+		return this;
+	}
 	if (search < this->get()->key)
 	{
 		return static_cast<SearchTree<T, D>*>(this->get()->left->Search(search));
@@ -45,8 +50,32 @@ SearchTree<T, D>* SearchTree<T, D>::Add(const T& key, const D& data)
 }
 
 template <class T, class D>
-void SearchTree<T, D>::Delete(const T& key) {
+void SearchTree<T, D>::Delete(const T& key)
+{
 	//TODO
+}
+
+/// <summary>
+/// Rotates the tree to the left, omitting parent pointers (as they are not used in searchtrees)
+/// </summary>
+/// <param name="left">if set to <c>true</c> the tree gets rotated left. If set to <c>false</c> the tree gets rotated right.</param>
+template <class T, class D>
+void SearchTree<T, D>::Rotate(bool left)
+{
+	SearchTree<T, D> * q = new SearchTree<T,D>();
+	if (left)
+	{
+		*q = static_cast<SearchTree<T,D>>(move(*(this->get()->right)));
+		*(this->get()->right) = move(*(q->get()->left));
+		*(q->get()->left) = move(*this);
+	}
+	else
+	{
+		*q = static_cast<SearchTree<T, D>>(move(*(this->get()->left)));
+		*(this->get()->left) = move(*(q->get()->right));
+		*(q->get()->right) = move(*this);
+	}
+	*this = move(*q);
 }
 
 template <class T, class D>

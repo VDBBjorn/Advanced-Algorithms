@@ -3,6 +3,7 @@
 #include "SearchTree.h"
 using namespace std;
 
+
 int main()
 {
 	SearchTree<int, double> tree;
@@ -11,6 +12,12 @@ int main()
 	tree.Add(10, 3.9);
 	tree.Add(2, 3.7);
 	tree.Add(7, 3.3);
+
+
+	cout << "depth " << tree.depth() << endl;
+	cout << tree << endl;
+
+	tree.Rotate(true);
 
 	cout << "depth " << tree.depth() << endl;
 	cout << tree << endl;

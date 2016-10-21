@@ -21,6 +21,7 @@ private:
 	using NodePointer<T, D>::NodePointer;
 	friend class Node<T, D>;
 public:
+
 	Tree() {
 	}
 
@@ -32,6 +33,7 @@ public:
 	virtual Tree<T, D>* Search(const T&) = 0;
 	virtual Tree<T, D>* Add(const T&, const D&) = 0;
 	virtual void Delete(const T&) = 0;
+	virtual void Rotate(bool) = 0;
 
 
 	bool end();
@@ -80,7 +82,7 @@ void Tree<T, D>::Write(ostream& os)
 	if (this->get() != nullptr)
 	{
 		this->get()->left->Write(os);
-		os << this->get()->data << " ";
+		os << this->get()->key << " ";
 		this->get()->right->Write(os);
 	}
 }
