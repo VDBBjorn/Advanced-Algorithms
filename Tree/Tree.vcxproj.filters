@@ -18,5 +18,11 @@
     <ClInclude Include="Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CsvData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

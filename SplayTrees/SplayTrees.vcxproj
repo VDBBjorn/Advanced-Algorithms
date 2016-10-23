@@ -110,8 +110,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CsvData.h" />
-    <ClInclude Include="PointGenerator.h" />
     <ClInclude Include="SplayTree.h" />
   </ItemGroup>
   <ItemGroup>

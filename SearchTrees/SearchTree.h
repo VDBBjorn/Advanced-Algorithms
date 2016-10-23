@@ -27,7 +27,7 @@ public:
 template <class T, class D>
 SearchTree<T, D>* SearchTree<T, D>::Search(const T& search)
 {
-	if (this->end() || this->get()->key == search)
+	if (this->End() || this->get()->key == search)
 	{
 		return this;
 	}
@@ -42,7 +42,7 @@ template <class T, class D>
 SearchTree<T, D>* SearchTree<T, D>::Add(const T& key, const D& data)
 {
 	SearchTree<T, D>* tree = Search(key);
-	if (tree->end())
+	if (tree->End())
 	{
 		*tree = static_cast<SearchTree<T, D>>(static_cast<unique_ptr<SearchNode<T, D>>>(new SearchNode<T, D>(key, data)));
 	}
@@ -92,5 +92,4 @@ SearchNode<T, D>::SearchNode(const T& k, const D& d): Node<T, D>(k, d)
 {
 	this->left = new SearchTree<T, D>();
 	this->right = new SearchTree<T, D>();
-	this->parent = new SearchTree<T, D>();
 }

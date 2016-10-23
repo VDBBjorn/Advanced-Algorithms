@@ -18,12 +18,6 @@
     <ClInclude Include="SplayTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PointGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CsvData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

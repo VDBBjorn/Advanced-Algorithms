@@ -1,7 +1,7 @@
 #include <iostream>
 #include "SplayTree.h"
-#include "PointGenerator.h"
-#include "CsvData.h"
+#include "../Tree/CsvData.h"
+#include "../Tree/PointGenerator.h"
 using namespace std;
 
 int aantalDatapunten = 6000;
@@ -9,12 +9,12 @@ int aantalDatapunten = 6000;
 void AddTest()
 {
 	CsvData grafiek("data", ',');
-	PointGenerator dePuntgenerator;
+	PointGenerator PointGenerator;
 	SplayTree<double, unsigned int> tree;
 	vector<double> dieptedata;
 	int aantal = 0;
 	for (int i = 0; i<aantalDatapunten; i++) {
-		double nupunt = dePuntgenerator.GetPoint();
+		double nupunt = PointGenerator.GetPoint();
 		tree.Add(nupunt, i);
 		aantal++;
 		if (aantal * 50 >= aantalDatapunten) {

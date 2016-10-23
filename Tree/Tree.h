@@ -22,8 +22,11 @@ private:
 	friend class Node<T, D>;
 public:
 
-	Tree() {
+	Tree(): parent(nullptr)
+	{
 	}
+
+	Tree* parent;
 
 	Tree(Tree<T, D>&& b) noexcept;
 	Tree<T, D>& operator=(Tree<T, D>&& b) noexcept;
@@ -34,9 +37,9 @@ public:
 	virtual Tree<T, D>* Add(const T&, const D&) = 0;
 	virtual void Delete(const T&) = 0;
 	virtual void Rotate(bool) = 0;
-
-
-	bool end();
+	
+	bool IsLeftChild();
+	bool End();
 	int Depth();
 	int NumberOfNodes();
 	virtual void Write(ostream& os);
@@ -49,7 +52,8 @@ public:
 };
 
 template <class T, class D>
-Tree<T, D>::Tree(Tree<T, D>&& b) noexcept: unique_ptr<Node<T, D>>(move(b)) {
+Tree<T, D>::Tree(Tree<T, D>&& b) noexcept: unique_ptr<Node<T, D>>(move(b))
+{
 }
 
 template <class T, class D>
@@ -60,20 +64,41 @@ Tree<T, D>& Tree<T, D>::operator=(Tree<T, D>&& b) noexcept
 }
 
 template <class T, class D>
-bool Tree<T, D>::end() { return this->get() == nullptr; }
+bool Tree<T, D>::IsLeftChild()
+{
+	if (parent == nullptr || parent->End())
+	{
+		return false;
+	}
+	if (parent->get()->left == this)
+		return true;
+	return false;
+}
+
+template <class T, class D>
+bool Tree<T, D>::End()
+{
+	return this->get() == nullptr;
+}
 
 template <class T, class D>
 int Tree<T, D>::Depth()
 {
-	if (end()) { return 0; }
+	if (End())
+	{
+		return 0;
+	}
 	return max(this->get()->left->Depth(), this->get()->right->Depth()) + 1;
 }
 
 template <class T, class D>
 int Tree<T, D>::NumberOfNodes()
 {
-	if (end()) { return 0; }
-	return (this->get()->left->Depth() + this->get()->right->Depth() + 1);
+	if (End())
+	{
+		return 0;
+	}
+	return (this->get()->left->NumberOfNodes() + this->get()->right->NumberOfNodes() + 1);
 }
 
 template <class T, class D>
@@ -92,13 +117,13 @@ class Node
 {
 	friend class Tree<T, D>;
 public:
-	Node(const T& k, const D& d) : key(k), data(d), parent(nullptr), left(nullptr), right(nullptr) {
+	Node(const T& k, const D& d) : key(k), data(d), left(nullptr), right(nullptr)
+	{
 	}
 
 	T key;
 	D data;
 
-	Tree<T, D>* parent;
 	Tree<T, D>* left;
 	Tree<T, D>* right;
 };

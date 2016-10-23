@@ -9,18 +9,6 @@ template <class T, class D>
 class SplayNode;
 
 template <class T, class D>
-bool isLeftChild(Tree<T, D> * child, Tree<T, D> * parent)
-{
-	if(parent->end())
-	{
-		return false;
-	}
-	if (parent->get()->left == child)
-		return true;
-	return false;
-}
-
-template <class T, class D>
 class SplayTree : public Tree<T, D>
 {
 private:
@@ -43,23 +31,23 @@ public:
 template <class T, class D>
 SplayTree<T, D>* SplayTree<T, D>::Search(const T& search)
 {
-	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(this->get()->parent);
+	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(this->parent);
 	return Search(search, parent);
 }
 
 template <class T, class D>
 SplayTree<T, D>* SplayTree<T, D>::Search(const T& search, SplayTree<T, D>*& parent)
 {
-	if (this->end() || this->get()->key == search)
+	if (this->End() || this->get()->key == search)
 	{
 		return this;
 	}
 
 	SplayTree<T, D>* tree = this;
 	auto left = true;
-	while (!tree->end() && tree->get()->key != search)
+	while (!tree->End() && tree->get()->key != search)
 	{
-		tree->get()->parent = parent;
+		tree->parent = parent;
 		parent = tree;
 		if (search < tree->get()->key)
 		{
@@ -103,10 +91,10 @@ void SplayTree<T, D>::Rotate(bool left)
 		*q = static_cast<SplayTree<T, D>>(move(*(this->get()->right)));
 		//q->get()->parent = move(this->get()->parent);
 		*(this->get()->right) = move(*(q->get()->left));
-		/*if (!this->get()->right->end())
+		/*if (!this->get()->right->End())
 			this->get()->right->get()->parent = this;*/
 		*(q->get()->left) = move(*this);
-		/*if (!q->get()->left->end())
+		/*if (!q->get()->left->End())
 			q->get()->left->get()->parent = q;*/
 	}
 	else
@@ -122,13 +110,13 @@ template <class T, class D>
 SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 {
 	SplayTree<T, D>* c = this;
-	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(c->get()->parent);
+	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(c->parent);
 	
 	/*while (parent != nullptr) {
 		//parent is root
-		if (parent->end())
+		if (parent->End())
 		{
-			this->Rotate(!isLeftChild(this,parent));
+			this->Rotate(!IsLeftChild(this,parent));
 			parent = nullptr;
 		}
 		//rotate intern
@@ -136,13 +124,13 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 		{
 			SplayTree<T, D> * grandparent = static_cast<SplayTree<T, D>*>(parent->get()->parent);
 			SplayTree<T, D> * grandparentHelper = nullptr;
-			if(grandparent->end())
+			if(grandparent->End())
 			{
 				grandparentHelper = c;
 			}
 			else
 			{
-				if(isLeftChild(parent->get()->parent, grandparent))
+				if(IsLeftChild(parent->get()->parent, grandparent))
 				{
 					grandparentHelper = static_cast<SplayTree<T, D>*>(grandparent->get()->left);
 				}
@@ -152,9 +140,9 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 				}
 			}
 
-			if(isLeftChild(parent,parent->get()->parent))
+			if(IsLeftChild(parent,parent->get()->parent))
 			{
-				if(isLeftChild(c,parent))
+				if(IsLeftChild(c,parent))
 				{
 					grandparentHelper->Rotate(false);
 				}
@@ -174,7 +162,7 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 template <class T, class D>
 void SplayTree<T, D>::Write(ostream& os)
 {
-	if (!this->end())
+	if (!this->End())
 	{
 		this->get()->left->Write(os);
 		os << this->get()->key << " ";
@@ -200,7 +188,6 @@ SplayNode<T, D>::SplayNode(const T& s, const D& d): SplayNode<T, D>(s, d, new Sp
 template <class T, class D>
 SplayNode<T, D>::SplayNode(const T& s, const D& d, SplayTree<T, D>* parent): Node<T, D>(s, d)
 {
-	this->parent = parent;
 	this->left = new SplayTree<T, D>();
 	this->right = new SplayTree<T, D>();
 }
