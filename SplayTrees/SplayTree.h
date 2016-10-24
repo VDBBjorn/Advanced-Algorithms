@@ -2,6 +2,7 @@
 #include "../Tree/Tree.h"
 #include <string>
 #include <cassert>
+#include "../SearchTrees/SearchTree.h"
 
 template <class T, class D>
 class SplayTree;
@@ -9,7 +10,7 @@ template <class T, class D>
 class SplayNode;
 
 template <class T, class D>
-class SplayTree : public Tree<T, D>
+class SplayTree : public SearchTree<T, D>
 {
 private:
 	using Tree<T, D>::Tree;
@@ -20,12 +21,10 @@ public:
 
 	SplayTree<T, D>* Search(const T&) override;
 	SplayTree<T, D>* Search(const T&, SplayTree<T, D>*&);
-	SplayTree<T, D>* Add(const T&, const D&) override;
-	void Delete(const T&) override;
-
-	void Rotate(bool left) override;
+	SplayTree<T, D>* Add(const T&, const D&);
+	void Delete(const T&);
 	SplayTree<T, D>* BottomUpSplay();
-	void Write(ostream& os) override;
+	void Write(ostream& os);
 };
 
 template <class T, class D>
@@ -76,34 +75,6 @@ template <class T, class D>
 void SplayTree<T, D>::Delete(const T&)
 {
 	//TODO
-}
-
-/// <summary>
-/// Rotates the tree
-/// </summary>
-/// <param name="left">if set to <c>true</c> the tree gets rotated left. If set to <c>false</c> the tree gets rotated right.</param>
-template <class T, class D>
-void SplayTree<T, D>::Rotate(bool left)
-{
-	SplayTree<T, D> * q = new SplayTree<T, D>();
-	if (left)
-	{
-		*q = static_cast<SplayTree<T, D>>(move(*(this->get()->right)));
-		//q->get()->parent = move(this->get()->parent);
-		*(this->get()->right) = move(*(q->get()->left));
-		/*if (!this->get()->right->End())
-			this->get()->right->get()->parent = this;*/
-		*(q->get()->left) = move(*this);
-		/*if (!q->get()->left->End())
-			q->get()->left->get()->parent = q;*/
-	}
-	else
-	{
-		*q = static_cast<SplayTree<T, D>>(move(*(this->get()->left)));
-		*(this->get()->left) = move(*(q->get()->right));
-		*(q->get()->right) = move(*this);
-	}
-	*this = move(*q);
 }
 
 template <class T, class D>
@@ -178,6 +149,8 @@ private:
 public:
 	SplayNode(const T&, const D&);
 	SplayNode(const T&, const D&, SplayTree<T, D>*);
+
+	SplayNode<T, D> * parent;
 };
 
 template <class T, class D>
@@ -188,6 +161,5 @@ SplayNode<T, D>::SplayNode(const T& s, const D& d): SplayNode<T, D>(s, d, new Sp
 template <class T, class D>
 SplayNode<T, D>::SplayNode(const T& s, const D& d, SplayTree<T, D>* parent): Node<T, D>(s, d)
 {
-	this->left = new SplayTree<T, D>();
-	this->right = new SplayTree<T, D>();
+	this->parent = parent;
 }

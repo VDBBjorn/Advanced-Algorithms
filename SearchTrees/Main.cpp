@@ -1,5 +1,4 @@
 #include <iostream>
-#include "../Tree/Tree.h"
 #include "SearchTree.h"
 using namespace std;
 
@@ -7,14 +6,19 @@ using namespace std;
 int main()
 {
 	SearchTree<int, double> tree;
-	tree.Add(5, 3.1);
-	tree.Add(4, 3.1);
-	tree.Add(10, 3.9);
-	tree.Add(2, 3.7);
-	tree.Add(7, 3.3);
+	tree.Add(44, 3.1);
+	tree.Add(30, 3.1);
+	tree.Add(16, 3.9);
+	tree.Add(39, 3.7);
+	tree.Add(76, 3.3);
 
 
 	cout << "depth " << tree.Depth() << endl;
+	cout << tree << endl;
+
+	tree.Rotate(false);
+
+	cout << "Depth " << tree.Depth() << endl;
 	cout << tree << endl;
 
 	tree.Rotate(true);
