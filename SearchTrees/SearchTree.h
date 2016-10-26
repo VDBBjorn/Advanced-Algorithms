@@ -33,8 +33,8 @@ public:
 	virtual SearchTree<T, D>* Search(const T& search);
 	virtual SearchTree<T, D>* Add(const T& key, const D& data);
 	virtual void Delete(const T& key);
-	void Rotate(bool left);
 	virtual void Write(ostream& os);
+	void Rotate(bool left);
 
 	bool End();
 	int Depth();
@@ -163,7 +163,7 @@ SearchTree<T, D>* SearchTree<T, D>::Add(const T& key, const D& data)
 template <class T, class D>
 void SearchTree<T, D>::Delete(const T& key)
 {
-	//TODO
+	throw "not implemented";
 }
 
 /// <summary>
@@ -219,7 +219,6 @@ void SearchTree<T, D>::Write(ostream& os)
 template <class T, class D>
 class SearchNode
 {
-private:
 	friend class SearchTree<T, D>;
 public:
 	SearchNode()

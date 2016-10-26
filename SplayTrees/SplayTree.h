@@ -13,48 +13,51 @@ template <class T, class D>
 class SplayTree : public SearchTree<T, D>
 {
 private:
-	using Tree<T, D>::Tree;
+	using SearchTree<T, D>::SearchTree;
 public:
 	SplayTree()
 	{
 	}
 
 	SplayTree<T, D>* Search(const T&) override;
-	SplayTree<T, D>* Search(const T&, SplayTree<T, D>*&);
-	SplayTree<T, D>* Add(const T&, const D&);
-	void Delete(const T&);
+	SplayTree<T, D>* Search(const T&, SplayNode<T, D>*&);
+	SplayTree<T, D>* Add(const T&, const D&) override;
+	void Delete(const T&) override;
+	void Write(ostream& os) override;
 	SplayTree<T, D>* BottomUpSplay();
-	void Write(ostream& os);
 };
 
 template <class T, class D>
 SplayTree<T, D>* SplayTree<T, D>::Search(const T& search)
 {
-	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(this->parent);
+	SplayNode<T, D>* parent;
 	return Search(search, parent);
 }
 
 template <class T, class D>
-SplayTree<T, D>* SplayTree<T, D>::Search(const T& search, SplayTree<T, D>*& parent)
+SplayTree<T, D>* SplayTree<T, D>::Search(const T& search, SplayNode<T, D>*& parent)
 {
 	if (this->End() || this->get()->key == search)
 	{
+		parent = nullptr;
 		return this;
 	}
 
 	SplayTree<T, D>* tree = this;
-	auto left = true;
 	while (!tree->End() && tree->get()->key != search)
 	{
-		tree->parent = parent;
-		parent = tree;
+		if (tree->IsRoot())
+		{
+			tree->get()->parent = parent;
+		}
+		parent = static_cast<SplayTree<T, D>*>(tree->get());
 		if (search < tree->get()->key)
 		{
-			tree = static_cast<SplayTree<T, D>*>(tree->get()->left);
+			tree = static_cast<SplayTree<T, D>*>(&(tree->get()->left));
 		}
 		else
 		{
-			tree = static_cast<SplayTree<T, D>*>(tree->get()->right);
+			tree = static_cast<SplayTree<T, D>*>(&(tree->get()->right));
 		}
 	}
 	return tree;
