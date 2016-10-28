@@ -13,7 +13,7 @@ int main()
 	tree.Add(76, 3.3);
 
 
-	cout << "depth " << tree.Depth() << endl;
+	cout << "Depth " << tree.Depth() << endl;
 	cout << tree << endl;
 
 	tree.Rotate(false);

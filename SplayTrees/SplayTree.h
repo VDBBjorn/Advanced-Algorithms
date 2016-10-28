@@ -12,7 +12,6 @@ class SplayNode;
 template <class T, class D>
 class SplayTree : public SearchTree<T, D>
 {
-private:
 	using SearchTree<T, D>::SearchTree;
 public:
 	SplayTree()
@@ -25,6 +24,8 @@ public:
 	void Delete(const T&) override;
 	void Write(ostream& os) override;
 	SplayTree<T, D>* BottomUpSplay();
+protected:
+	void Rotate(bool left) override;
 };
 
 template <class T, class D>
@@ -85,7 +86,7 @@ SplayTree<T, D>* SplayTree<T, D>::BottomUpSplay()
 {
 	SplayTree<T, D>* c = this;
 	SplayTree<T, D>* parent = static_cast<SplayTree<T, D>*>(c->parent);
-	
+
 	/*while (parent != nullptr) {
 		//parent is root
 		if (parent->End())
@@ -153,7 +154,7 @@ public:
 	SplayNode(const T&, const D&);
 	SplayNode(const T&, const D&, SplayTree<T, D>*);
 
-	SplayNode<T, D> * parent;
+	SplayNode<T, D>* parent;
 };
 
 template <class T, class D>
