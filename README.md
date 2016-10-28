@@ -1,5 +1,5 @@
 # Gevorderde-Algoritmen
-Algorithms implemented *by me* for the course "Advanced Algorithms" (J. Cnops) at the Ghent University (Master of Science in Industrial Engineering: Information Science")
+Algorithms implemented *by me* for the course "Advanced Algorithms" (J. Cnops) at the Ghent University (Master of Science in Industrial Engineering: Information Science)
 
 ## Build
 Use Visual Studio to open the solution and compile all the projects at once. All projects have been tested and are fully working as of 12/2016. 
@@ -8,6 +8,10 @@ Use Visual Studio to open the solution and compile all the projects at once. All
 It is also possible to use these with the GNU C++ compiler, although some notations might be incorrect.
 
 ## TODO
+* Search trees
+	* ~~Search~~	
+	* ~~Add~~
+	* Delete
 * Red-Black trees
 	* ~~Search~~	
 	* Add
@@ -32,7 +36,7 @@ It is also possible to use these with the GNU C++ compiler, although some notati
 
 * Optimized binary searchtrees
 
-* Longest Common Sequence
+* ~~Longest Common Sequence~~
 
 * B-Trees
 	* ~~Search~~
