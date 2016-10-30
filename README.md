@@ -15,7 +15,7 @@ It is also possible to use these with the GNU C++ compiler, although some notati
 * Red-Black trees
 	* ~~Search~~	
 	* Add
-		* Bottom-up
+		* ~~Bottom-up~~
 		* Top-down
 	* Delete
 		* Bottom-up
