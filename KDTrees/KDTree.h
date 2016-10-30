@@ -16,8 +16,9 @@ public:
 
 	KDTree()
 	{
-	};
-	KDTree(Point p);
+	}
+
+	explicit KDTree(Point p);
 
 	KDTree* Search(Point);
 	void Add(Point);

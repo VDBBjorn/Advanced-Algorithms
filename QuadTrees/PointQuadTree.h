@@ -16,22 +16,22 @@ struct Point
 
 class Node;
 
-class QuadTree : public unique_ptr<Node>
+class PointQuadTree : public unique_ptr<Node>
 {
 public:
 	using unique_ptr<Node>::unique_ptr;
 
-	QuadTree()
+	PointQuadTree()
 	{
 	};
-	QuadTree(Point p);
+	PointQuadTree(Point p);
 
-	QuadTree* Search(Point);
+	PointQuadTree* Search(Point);
 	void Add(Point);
 	int Depth() const;
 	void Write(ostream& os) const;
 
-	friend ostream& operator<<(ostream& os, QuadTree& b)
+	friend ostream& operator<<(ostream& os, PointQuadTree& b)
 	{
 		b.Write(os);
 		return os;
@@ -54,19 +54,19 @@ public:
 		children.resize(4);
 	}
 
-	friend class QuadTree;
+	friend class PointQuadTree;
 private:
 	Point point;
-	vector<QuadTree> children;
+	vector<PointQuadTree> children;
 };
 
-inline QuadTree::QuadTree(Point p) : unique_ptr<Node>(new Node(p))
+inline PointQuadTree::PointQuadTree(Point p) : unique_ptr<Node>(new Node(p))
 {
 }
 
-inline QuadTree* QuadTree::Search(Point k)
+inline PointQuadTree* PointQuadTree::Search(Point k)
 {
-	QuadTree* loper = this;
+	PointQuadTree* loper = this;
 
 	while (loper->get() != nullptr && (loper->get()->point.x != k.x && loper->get()->point.y != k.y))
 	{
@@ -96,16 +96,16 @@ inline QuadTree* QuadTree::Search(Point k)
 	return loper;
 }
 
-inline void QuadTree::Add(Point k)
+inline void PointQuadTree::Add(Point k)
 {
-	QuadTree* plaats = Search(k);
+	PointQuadTree* plaats = Search(k);
 	if (plaats->get() == nullptr)
 	{
 		*plaats = move(make_unique<Node>(k));
 	}
 }
 
-inline int QuadTree::Depth() const
+inline int PointQuadTree::Depth() const
 {
 	int max_diepte = 0;
 	for (int i = 0; i < 4; i++)
@@ -122,7 +122,7 @@ inline int QuadTree::Depth() const
 	return max_diepte;
 }
 
-inline void QuadTree::Write(ostream& os) const
+inline void PointQuadTree::Write(ostream& os) const
 {
 	if (*this != nullptr)
 	{

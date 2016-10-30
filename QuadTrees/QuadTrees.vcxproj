@@ -110,7 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="PointQuadTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
