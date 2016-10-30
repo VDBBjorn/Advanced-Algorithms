@@ -46,7 +46,8 @@ It is also possible to use these with the GNU C++ compiler, although some notati
 * Extendible hashing
 * Linear hashing
 
-* ~~Quadtrees~~
+* ~~Point quadtrees~~
+* PR quadtrees
 * K-D trees
 
 * Heaps
