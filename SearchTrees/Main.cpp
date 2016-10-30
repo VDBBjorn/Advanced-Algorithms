@@ -14,6 +14,7 @@ int main()
 
 
 	cout << "Depth " << tree.Depth() << endl;
+	cout << "Number " << tree.NumberOfNodes() << endl;
 	cout << tree << endl;
 
 	tree.Rotate(false);

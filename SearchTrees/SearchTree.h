@@ -9,6 +9,7 @@ template <class T, class D>
 class SearchTree;
 template <class T, class D>
 class Node;
+
 /// Name the unique pointer to a node
 template <class T, class D>
 using NodePointer = unique_ptr<Node<T, D>>;
@@ -16,11 +17,6 @@ using NodePointer = unique_ptr<Node<T, D>>;
 template <class T, class D>
 class SearchTree : public NodePointer<T, D>
 {
-protected:
-	~SearchTree()
-	{
-	}
-
 private:
 	using NodePointer<T, D>::NodePointer;
 	friend class Node<T, D>;
@@ -29,8 +25,11 @@ public:
 	{
 	}
 
+	~SearchTree()
+	{
+	}
+
 	explicit SearchTree(Node<T, D>* node);
-	SearchTree(SearchTree<T, D>&& b) noexcept;
 	SearchTree<T, D>& operator=(SearchTree<T, D>&& b) noexcept;
 
 	SearchTree(const SearchTree<T, D>&) = delete;
@@ -44,6 +43,7 @@ public:
 	bool End();
 	int Depth();
 	int NumberOfNodes();
+	Node<T, D>* GetParent();
 	SearchTree<T, D>& GetSibling();
 
 	friend ostream& operator<<(ostream& os, SearchTree<T, D>& t)
@@ -88,18 +88,13 @@ SearchTree<T, D>::SearchTree(Node<T, D>* node)
 }
 
 template <class T, class D>
-SearchTree<T, D>::SearchTree(SearchTree<T, D>&& b) noexcept
+SearchTree<T, D>& SearchTree<T, D>::operator=(SearchTree<T, D>&& b) noexcept
 {
 	if (this != &b)
 	{
 		this->reset(b.release());
 	}
 	return *this;
-}
-
-template <class T, class D>
-SearchTree<T, D>& SearchTree<T, D>::operator=(SearchTree<T, D>&& b) noexcept
-{
 }
 
 template <class T, class D>
@@ -116,10 +111,12 @@ SearchTree<T, D>* SearchTree<T, D>::Search(const T& search)
 template <class T, class D>
 SearchTree<T, D>* SearchTree<T, D>::Add(const T& key, const D& data)
 {
-	SearchTree<T, D>* tree = Search(key);
+	Node<T, D>* parent = this->GetParent();
+	SearchTree<T, D>* tree = Search(key, parent);
 	if (tree->End())
 	{
 		*tree = static_cast<SearchTree<T, D>>(static_cast<unique_ptr<Node<T, D>>>(new Node<T, D>(key, data)));
+		(*tree)->parent = parent;
 	}
 	return tree;
 }
@@ -172,11 +169,9 @@ void SearchTree<T, D>::Write(ostream& os)
 {
 	if (!this->End())
 	{
-		if (!this->get()->left.End())
-			this->get()->left.Write(os);
-		os << this->get()->key << " ";
-		if (!this->get()->right.End())
-			this->get()->right.Write(os);
+		this->get()->left.Write(os);
+		os << this->get()->key << " (" << this->get()->parent->key << ") ";
+		this->get()->right.Write(os);
 	}
 }
 
@@ -207,13 +202,23 @@ int SearchTree<T, D>::NumberOfNodes()
 }
 
 template <class T, class D>
+Node<T, D>* SearchTree<T, D>::GetParent()
+{
+	if(this->End())
+	{
+		return new Node<T, D>();
+	}
+	return (*this)->parent;
+}
+
+template <class T, class D>
 SearchTree<T, D>& SearchTree<T, D>::GetSibling()
 {
 	if ((*this)->parent->End())
 	{
 		throw "This node has no parent";
 	}
-	Tree<T, D>* parent = (*this)->parent;
+	Node<T, D>* parent = (*this)->parent;
 	if (this->get() == parent->left->get())
 	{
 		return parent->right;
@@ -226,6 +231,10 @@ class Node
 {
 	friend class SearchTree<T, D>;
 public:
+	Node(): parent(nullptr)
+	{
+		
+	}
 
 	Node(const T& k, const D& d) : Node(k, d, nullptr)
 	{

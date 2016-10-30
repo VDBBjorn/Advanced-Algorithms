@@ -1,11 +1,11 @@
 #include <iostream>
 #include "../Tree/Tree.h"
-#include "RedBlackTree.h"
+#include "RedBlackTreeBottomUp.h"
 using namespace std;
 
 int main()
 {
-	RedBlackTree<int, double> tree;
+	RedBlackTreeBottomUp<int, double> tree;
 	tree.Add(5, 3.1);
 	tree.Add(2, 3.7);
 	tree.Add(7, 3.7);
@@ -13,12 +13,6 @@ int main()
 	/*tree.Add(10, 3.9);*/
 	tree.Add(1, 3.7);
 	/*tree.Add(6, 3.7);*/
-
-	cout << "Depth: " << tree.Depth() << endl;
-	cout << "Number of nodes: " << tree.NumberOfNodes() << endl;
-	cout << tree << endl;
-
-	tree.Rotate(false);
 
 	cout << "Depth: " << tree.Depth() << endl;
 	cout << "Number of nodes: " << tree.NumberOfNodes() << endl;
