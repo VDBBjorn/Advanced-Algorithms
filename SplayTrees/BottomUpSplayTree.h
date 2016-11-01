@@ -28,6 +28,8 @@ public:
 	void Delete(const T&);
 	void Write(ostream& os);
 	BottomUpSplayTree<T, D>* BottomUpSplay();
+	int Depth();
+	bool End();
 };
 
 template <class T, class D>
@@ -169,6 +171,12 @@ BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::BottomUpSplay()
 }
 
 template <class T, class D>
+bool BottomUpSplayTree<T, D>::End()
+{
+	return this->get() == nullptr;
+}
+
+template <class T, class D>
 void BottomUpSplayTree<T, D>::Write(ostream& os)
 {
 	if (!this->End())
@@ -177,6 +185,16 @@ void BottomUpSplayTree<T, D>::Write(ostream& os)
 		os << this->get()->key << " ";
 		this->get()->right->Write(os);
 	}
+}
+
+template <class T, class D>
+int BottomUpSplayTree<T, D>::Depth()
+{
+	if (End())
+	{
+		return 0;
+	}
+	return max((*this)->left.Depth(), (*this)->right.Depth()) + 1;
 }
 
 template <class T, class D>
@@ -198,7 +216,7 @@ public:
 
 	T key;
 	D data;
-	Node<T, D>* parent;
+	SplayNode<T, D>* parent;
 	BottomUpSplayTree<T, D> left;
 	BottomUpSplayTree<T, D> right;
 };

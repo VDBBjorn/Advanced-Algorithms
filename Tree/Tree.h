@@ -8,11 +8,11 @@ using namespace std;
 template <class T, class D>
 class Tree;
 template <class T, class D>
-class Node;
+class SearchNode;
 
 /// Name the unique pointer to a node
 template <class T, class D>
-using NodePointer = unique_ptr<Node<T, D>>;
+using NodePointer = unique_ptr<SearchNode<T, D>>;
 
 template <class T, class D>
 class Tree : public NodePointer<T, D>
@@ -25,13 +25,13 @@ protected:
 
 private:
 	using NodePointer<T, D>::NodePointer;
-	friend class Node<T, D>;
+	friend class SearchNode<T, D>;
 public:
 	Tree()
 	{
 	}
 
-	explicit Tree(Node<T, D>* node);
+	explicit Tree(SearchNode<T, D>* node);
 	Tree(Tree<T, D>&& b) noexcept;
 	Tree<T, D>& operator=(Tree<T, D>&& b) noexcept;
 
@@ -58,13 +58,13 @@ public:
 };
 
 template <class T, class D>
-Tree<T, D>::Tree(Node<T, D>* node)
+Tree<T, D>::Tree(SearchNode<T, D>* node)
 {
 	this->reset(std::move(node));
 }
 
 template <class T, class D>
-Tree<T, D>::Tree(Tree<T, D>&& b) noexcept: unique_ptr<Node<T, D>>(move(b))
+Tree<T, D>::Tree(Tree<T, D>&& b) noexcept: unique_ptr<SearchNode<T, D>>(move(b))
 {
 }
 
@@ -132,22 +132,22 @@ void Tree<T, D>::Write(ostream& os)
 }
 
 template <class T, class D>
-class Node
+class SearchNode
 {
 	friend class Tree<T, D>;
 public:
 
-	Node(const T& k, const D& d) : Node(k, d, nullptr)
+	SearchNode(const T& k, const D& d) : SearchNode(k, d, nullptr)
 	{
 	}
 
-	Node(const T& k, const D& d, Node<T, D>* p) : key(k), data(d), parent(p)
+	SearchNode(const T& k, const D& d, SearchNode<T, D>* p) : key(k), data(d), parent(p)
 	{
 	}
 
 	T key;
 	D data;
-	Node<T, D>* parent;
+	SearchNode<T, D>* parent;
 	Tree<T, D> left;
 	Tree<T, D> right;
 };

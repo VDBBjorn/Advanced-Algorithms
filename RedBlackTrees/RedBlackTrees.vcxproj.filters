@@ -20,6 +20,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RedBlackTreeTopDown.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="RedBlackTreeBottomUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>

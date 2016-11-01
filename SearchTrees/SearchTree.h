@@ -8,18 +8,18 @@ using namespace std;
 template <class T, class D>
 class SearchTree;
 template <class T, class D>
-class Node;
+class SearchNode;
 
 /// Name the unique pointer to a node
 template <class T, class D>
-using NodePointer = unique_ptr<Node<T, D>>;
+using NodePointer = unique_ptr<SearchNode<T, D>>;
 
 template <class T, class D>
 class SearchTree : public NodePointer<T, D>
 {
 private:
 	using NodePointer<T, D>::NodePointer;
-	friend class Node<T, D>;
+	friend class SearchNode<T, D>;
 public:
 	SearchTree()
 	{
@@ -29,7 +29,7 @@ public:
 	{
 	}
 
-	explicit SearchTree(Node<T, D>* node);
+	explicit SearchTree(SearchNode<T, D>* node);
 	SearchTree<T, D>& operator=(SearchTree<T, D>&& b) noexcept;
 
 	SearchTree(const SearchTree<T, D>&) = delete;
@@ -43,7 +43,7 @@ public:
 	bool End();
 	int Depth();
 	int NumberOfNodes();
-	Node<T, D>* GetParent();
+	SearchNode<T, D>* GetParent();
 	SearchTree<T, D>& GetSibling();
 
 	friend ostream& operator<<(ostream& os, SearchTree<T, D>& t)
@@ -53,11 +53,37 @@ public:
 	}
 
 protected:
-	SearchTree<T, D>* Search(const T&, Node<T, D>*&);
+	SearchTree<T, D>* Search(const T&, SearchNode<T, D>*&);
+};
+
+
+
+template <class T, class D>
+class SearchNode
+{
+public:
+	SearchNode() : parent(nullptr)
+	{
+
+	}
+
+	SearchNode(const T& k, const D& d) : SearchNode(k, d, nullptr)
+	{
+	}
+
+	SearchNode(const T& k, const D& d, SearchNode<T, D>* p) : key(k), data(d), parent(p)
+	{
+	}
+
+	T key;
+	D data;
+	SearchNode<T, D>* parent;
+	SearchTree<T, D> left;
+	SearchTree<T, D> right;
 };
 
 template <class T, class D>
-SearchTree<T, D>* SearchTree<T, D>::Search(const T& search, Node<T, D>*& parent)
+SearchTree<T, D>* SearchTree<T, D>::Search(const T& search, SearchNode<T, D>*& parent)
 {
 	if (this->End() || this->get()->key == search)
 	{
@@ -82,7 +108,7 @@ SearchTree<T, D>* SearchTree<T, D>::Search(const T& search, Node<T, D>*& parent)
 }
 
 template <class T, class D>
-SearchTree<T, D>::SearchTree(Node<T, D>* node)
+SearchTree<T, D>::SearchTree(SearchNode<T, D>* node)
 {
 	this->reset(std::move(node));
 }
@@ -104,18 +130,18 @@ SearchTree<T, D>* SearchTree<T, D>::Search(const T& search)
 	{
 		return this;
 	}
-	Node<T, D>* parent = this->get()->parent;
+	SearchNode<T, D>* parent = this->get()->parent;
 	return Search(search, parent);
 }
 
 template <class T, class D>
 SearchTree<T, D>* SearchTree<T, D>::Add(const T& key, const D& data)
 {
-	Node<T, D>* parent = this->GetParent();
+	SearchNode<T, D>* parent = this->GetParent();
 	SearchTree<T, D>* tree = Search(key, parent);
 	if (tree->End())
 	{
-		*tree = static_cast<SearchTree<T, D>>(static_cast<unique_ptr<Node<T, D>>>(new Node<T, D>(key, data)));
+		*tree = static_cast<SearchTree<T, D>>(static_cast<unique_ptr<SearchNode<T, D>>>(new SearchNode<T, D>(key, data)));
 		(*tree)->parent = parent;
 	}
 	return tree;
@@ -202,11 +228,11 @@ int SearchTree<T, D>::NumberOfNodes()
 }
 
 template <class T, class D>
-Node<T, D>* SearchTree<T, D>::GetParent()
+SearchNode<T, D>* SearchTree<T, D>::GetParent()
 {
 	if(this->End())
 	{
-		return new Node<T, D>();
+		return new SearchNode<T, D>();
 	}
 	return (*this)->parent;
 }
@@ -218,35 +244,10 @@ SearchTree<T, D>& SearchTree<T, D>::GetSibling()
 	{
 		throw "This node has no parent";
 	}
-	Node<T, D>* parent = (*this)->parent;
+	SearchNode<T, D>* parent = (*this)->parent;
 	if (this->get() == parent->left->get())
 	{
 		return parent->right;
 	}
 	return parent->left;
 }
-
-template <class T, class D>
-class Node
-{
-	friend class SearchTree<T, D>;
-public:
-	Node(): parent(nullptr)
-	{
-		
-	}
-
-	Node(const T& k, const D& d) : Node(k, d, nullptr)
-	{
-	}
-
-	Node(const T& k, const D& d, Node<T, D>* p) : key(k), data(d), parent(p)
-	{
-	}
-
-	T key;
-	D data;
-	Node<T, D>* parent;
-	SearchTree<T, D> left;
-	SearchTree<T, D> right;
-};

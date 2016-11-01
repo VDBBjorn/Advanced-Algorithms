@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <cassert>
+#include <memory>
 
 using namespace std;
 
@@ -16,10 +17,11 @@ using RBNodePointer = unique_ptr<RBNode<T, D>>;
 enum class Color
 {
 	BLACK = 0,
-	RED = 1
+	RED = 1,
+	DOUBLEBLACK = 2
 };
 
-string colorstring[] = {"B", "R"};
+string colorstring[] = {"B", "R", "BB"};
 
 template <class T, class D>
 class RedBlackTreeBottomUp : public RBNodePointer<T, D>
@@ -171,8 +173,8 @@ void RedBlackTreeBottomUp<T, D>::Delete(const T& key)
 		// toDelete is zwart
 		// 2 deelgevallen: 1 (links) rood kind of geen kinderen
 		// Deelgeval 1: een links rood kind.
-		RedBlackTreeBottomUp<T,D> leftChild = toDelete->get()->left;
-		if(leftChild != NULL && leftChild->color == Color::RED)
+		RedBlackTreeBottomUp<T, D> leftChild = toDelete->get()->left;
+		if (leftChild != NULL && leftChild->color == Color::RED)
 		{
 			//Schuif het kind omhoog
 			toDelete->get()->key = leftChild->key;
@@ -182,7 +184,32 @@ void RedBlackTreeBottomUp<T, D>::Delete(const T& key)
 		// Deelgeval 2: de fysieke knoop is zwart zonder kinderen
 		else
 		{
-			//TODO
+			// Eerst maken we de toDelete een nulknoop die dubbelzwart is.
+			toDelete = new RedBlackTreeBottomUp<T, D>();
+			(*toDelete)->color = Color::DOUBLEBLACK;
+
+			// Zolang de knoop dubbelzwart is, en een ouder heeft, proberen we de situatie te herstellen.
+			while ((*toDelete)->color == Color::DOUBLEBLACK && (*toDelete)->parent != nullptr)
+			{
+				RedBlackTreeBottomUp<T, D> sibling = toDelete->GetSibling();
+				// Als de broer rood is, roteer de ouder naar links
+				if (toDelete->get()->parent->color == Color::RED)
+				{
+					toDelete->get()->parent->Rotate(true);
+					toDelete->get()->parent->color = Color::RED;
+					sibling->get()->color = Color::BLACK;
+				}
+				// Als de broer zwart is, onderscheiden we 3 gevallen
+				else
+				{
+					// Geval 1a: De broer zijn beide kinderen zijn zwart.
+
+					// Geval 1b: De broer heeft 1 rood rechter kind. (als c links hangt)
+
+					// Geval 1c: De broer heeft 1 rood linker kind.
+
+				}
+			}
 		}
 	}
 }

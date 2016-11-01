@@ -1,10 +1,10 @@
 #include <iostream>
+#include "PointQuadTree.h"
 using namespace std;
 
-#include "quadtree.h"
 
 int main() {
-	QuadTree quadtree;
+	PointQuadTree quadtree;
 
 	for (int i = 0; i<30; i++) {
 		Point p;

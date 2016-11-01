@@ -18,7 +18,7 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 		* ~~Bottom-up~~
 		* Top-down
 	* Delete
-		* Bottom-up
+		* ~~Bottom-up~~
 		* Top-down
 
 * Splay trees

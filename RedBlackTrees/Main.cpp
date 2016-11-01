@@ -1,11 +1,11 @@
 #include <iostream>
 #include "../Tree/Tree.h"
-#include "RedBlackTreeBottomUp.h"
+#include "RedBlackTreeTopDown.h"
 using namespace std;
 
 int main()
 {
-	RedBlackTreeBottomUp<int, double> tree;
+	RedBlackTreeTopDown<int, double> tree;
 	tree.Add(5, 3.1);
 	tree.Add(2, 3.7);
 	tree.Add(7, 3.7);
