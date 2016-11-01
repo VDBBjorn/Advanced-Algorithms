@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SplayTree.h"
+#include "BottomUpSplayTree.h"
 #include "../Tree/CsvData.h"
 #include "../Tree/PointGenerator.h"
 using namespace std;
@@ -10,7 +10,7 @@ void AddTest()
 {
 	CsvData grafiek("data", ',');
 	PointGenerator PointGenerator;
-	SplayTree<double, unsigned int> tree;
+	BottomUpSplayTree<double, unsigned int> tree;
 	vector<double> dieptedata;
 	int aantal = 0;
 	for (int i = 0; i<aantalDatapunten; i++) {

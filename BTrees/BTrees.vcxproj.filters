@@ -31,5 +31,8 @@
     <Text Include="donquijote.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="clinton.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

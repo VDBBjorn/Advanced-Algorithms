@@ -1,6 +1,7 @@
 #pragma once
 #include "Disk.h"
 #include <stack>
+#include <vector>
 //betekenis m: orde van de B-tree (maximaal m children en m-1 sleutels)
 
 using namespace std;
@@ -33,6 +34,13 @@ public:
 
 	void Put(T key, D val);
 	DataLocation Search(T key);
+	vector<pair<string,int>> GetTopWords(int number)
+	{
+		vector<pair<string,int>> result(20);
+		//this->
+		return result;
+	}
+
 private:
 	Disk<BNode<T, D, m>>& disk;
 	Node root;
@@ -50,7 +58,7 @@ void BTree<T, D, m>::Put(T key, D val)
 	}
 	stack<blockindex> path = location.path;
 	bool added = false;
-	blockindex index;
+	blockindex index = 0;
 	blockindex newblockindex = 0;
 	while (!added && !path.empty())
 	{
@@ -169,9 +177,9 @@ public:
 
 	int Insert(T key, D val, blockindex index);
 
-	T keys[m - 1];
+	T keys[m];
 	D data[m];
-	blockindex index[m + 1];
+	blockindex index[m];
 	/// <summary>
 	/// The current number of keys
 	/// </summary>

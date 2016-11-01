@@ -28,10 +28,10 @@ int main() {
 	BTree<Word, int, 666> tree(disk);
 
 	ifstream ifile;
-	ifile.open("donquijote.txt");
+	ifile.open("clinton.txt");
 	if (!ifile) {
 		cout << "Unable to open file";
-		exit(1); // terminate with error
+		exit(1); 
 	}
 
 	string woord;
@@ -45,10 +45,11 @@ int main() {
 		tree.Put(my_woord, node.data[location.keyindex]);
 		ifile >> woord;
 	}
-
 	ifile.close();
-
 	cout << "Done";
+
+	tree.GetTopWords(20);
+
 	cin.get();
 	return 0;
 }

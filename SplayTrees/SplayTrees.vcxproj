@@ -110,7 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SplayTree.h" />
+    <ClInclude Include="BottomUpSplayTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
