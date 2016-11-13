@@ -53,6 +53,7 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 * Heaps
 
 -----------------
+* ~~Connected graphs~~
 
 * Strongly connected components
 	* in an indirected graph
