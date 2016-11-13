@@ -2,12 +2,13 @@
 #include "../Tree/Tree.h"
 #include <string>
 #include <cassert>
-#include "../SearchTrees/SearchTree.h"
 
 template <class T, class D>
 class BottomUpSplayTree;
 template <class T, class D>
 class SplayNode;
+template <class T, class D>
+class RootSplayNode;
 
 /// Name the unique pointer to a node
 template <class T, class D>
@@ -19,7 +20,10 @@ class BottomUpSplayTree : public SplayNodePointer<T, D>
 public:
 	BottomUpSplayTree()
 	{
+
 	}
+
+	explicit BottomUpSplayTree(SplayNode<T, D>*);
 
 	void Rotate(bool left);
 	BottomUpSplayTree<T, D>* Search(const T&);
@@ -30,7 +34,14 @@ public:
 	BottomUpSplayTree<T, D>* BottomUpSplay();
 	int Depth();
 	bool End();
+	BottomUpSplayTree<T, D>* GetParentTree();
 };
+
+template <class T, class D>
+BottomUpSplayTree<T, D>::BottomUpSplayTree(SplayNode<T, D>* node)
+{
+	this->reset(std::move(node));
+}
 
 template <class T, class D>
 void BottomUpSplayTree<T, D>::Rotate(bool left)
@@ -83,9 +94,9 @@ BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::Search(const T& search, SplayN
 	BottomUpSplayTree<T, D>* tree = this;
 	while (!tree->End() && tree->get()->key != search)
 	{
-		if (tree->IsRoot())
+		if ((*tree)->parent == nullptr)
 		{
-			tree->get()->parent = parent;
+			tree->get()->parent = nullptr;
 		}
 		parent = tree->get();
 		if (search < tree->get()->key)
@@ -97,17 +108,23 @@ BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::Search(const T& search, SplayN
 			tree = &(tree->get()->right);
 		}
 	}
+
+	//tree->BottomUpSplay();
+
 	return tree;
 }
 
 template <class T, class D>
 BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::Add(const T& s, const D& d)
 {
-	BottomUpSplayTree<T, D>* parent = new BottomUpSplayTree<T, D>();
+	SplayNode<T, D>* parent = new SplayNode<T, D>();
 	BottomUpSplayTree<T, D>* tree = Search(s, parent);
-	auto node = new SplayNode<T, D>(s, d, parent);
-	*tree = BottomUpSplayTree<T,D>(node);
-	tree->BottomUpSplay();
+	if (tree->End())
+	{
+		auto node = new SplayNode<T, D>(s, d, parent);
+		*tree = BottomUpSplayTree<T, D>(node);
+		tree->BottomUpSplay();
+	}
 	return tree;
 }
 
@@ -121,52 +138,40 @@ template <class T, class D>
 BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::BottomUpSplay()
 {
 	BottomUpSplayTree<T, D>* c = this;
-	BottomUpSplayTree<T, D>* parent = static_cast<BottomUpSplayTree<T, D>*>(c->parent);
+	BottomUpSplayTree<T, D>* parent = c->GetParentTree();
+	BottomUpSplayTree<T, D>* grandParent = parent->GetParentTree();
 
-	/*while (parent != nullptr) {
-		//parent is root
-		if (parent->End())
+	while (parent != nullptr)
+	{
+		// ZIG
+		// Er is geen grootouder meer -> roteer over root
+		if (grandParent == nullptr)
 		{
-			this->Rotate(!IsLeftChild(this,parent));
-			parent = nullptr;
+			root->Rotate(false);
 		}
-		//rotate intern
+		// Er is nog een grootouder
 		else
 		{
-			BottomUpSplayTree<T, D> * grandparent = static_cast<BottomUpSplayTree<T, D>*>(parent->get()->parent);
-			BottomUpSplayTree<T, D> * grandparentHelper = nullptr;
-			if(grandparent->End())
+			bool childLeft = ((*parent)->left == *c ? true : false);
+			bool parentLeft = ((*grandParent)->left == *parent ? true : false);
+			// als c en p op dezelfde lijn liggen
+			// ZIG ZIG
+			if (childLeft == parentLeft)
 			{
-				grandparentHelper = c;
+				grandParent->Rotate(false);
+				parent->Rotate(false);
 			}
+			// als c en p niet op dezelfde lijn liggen
+			// ZIG ZAG
 			else
 			{
-				if(IsLeftChild(parent->get()->parent, grandparent))
-				{
-					grandparentHelper = static_cast<BottomUpSplayTree<T, D>*>(grandparent->get()->left);
-				}
-				else
-				{
-					grandparentHelper = static_cast<BottomUpSplayTree<T, D>*>(grandparent->get()->right);
-				}
+				parent->Rotate(true);
+				grandParent->Rotate(false);
 			}
-
-			if(IsLeftChild(parent,parent->get()->parent))
-			{
-				if(IsLeftChild(c,parent))
-				{
-					grandparentHelper->Rotate(false);
-				}
-				else
-				{
-					static_cast<BottomUpSplayTree<T, D>*>(parent->get()->parent->get()->left)->Rotate(true);
-					grandparent->Rotate(false);
-				}
-			}
-			c = grandparent;
-			parent = static_cast<BottomUpSplayTree<T, D>*>(grandparent->get()->parent);
 		}
-	}*/
+		parent = c->GetParentTree();
+		grandParent = parent->GetParentTree();
+	}
 	return c;
 }
 
@@ -174,6 +179,14 @@ template <class T, class D>
 bool BottomUpSplayTree<T, D>::End()
 {
 	return this->get() == nullptr;
+}
+
+template <class T, class D>
+BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::GetParentTree()
+{
+	if(this != nullptr && this->get() != nullptr)
+		return this->get()->GetParentTree();
+	return nullptr;
 }
 
 template <class T, class D>
@@ -203,7 +216,6 @@ class SplayNode
 public:
 	SplayNode() : parent(nullptr)
 	{
-
 	}
 
 	SplayNode(const T& k, const D& d) : SplayNode(k, d, nullptr)
@@ -219,4 +231,43 @@ public:
 	SplayNode<T, D>* parent;
 	BottomUpSplayTree<T, D> left;
 	BottomUpSplayTree<T, D> right;
+
+	BottomUpSplayTree<T, D>* GetParentTree();
 };
+
+template <class T, class D>
+class RootSplayNode: public SplayNode<T, D>
+{
+public:
+	RootSplayNode()
+	{
+		
+	}
+
+	BottomUpSplayTree<T, D>* root;
+};
+
+
+template <class T, class D>
+BottomUpSplayTree<T, D>* SplayNode<T, D>::GetParentTree()
+{
+	if (parent != nullptr)
+	{
+		if (parent->parent != nullptr) {
+			if (parent->parent->left.get() == parent)
+			{
+				return &(parent->parent->left);
+			}
+			else
+			{
+				return &(parent->parent->right);
+			}
+		}
+		else
+		{
+			// root is parent
+			return ;
+		}
+	}
+	return nullptr;
+}

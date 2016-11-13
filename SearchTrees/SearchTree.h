@@ -12,20 +12,16 @@ class SearchNode;
 
 /// Name the unique pointer to a node
 template <class T, class D>
-using NodePointer = unique_ptr<SearchNode<T, D>>;
+using SearchNodePointer = unique_ptr<SearchNode<T, D>>;
 
 template <class T, class D>
-class SearchTree : public NodePointer<T, D>
+class SearchTree : public SearchNodePointer<T, D>
 {
 private:
-	using NodePointer<T, D>::NodePointer;
+	using SearchNodePointer<T, D>::SearchNodePointer;
 	friend class SearchNode<T, D>;
 public:
 	SearchTree()
-	{
-	}
-
-	~SearchTree()
 	{
 	}
 
@@ -62,18 +58,11 @@ template <class T, class D>
 class SearchNode
 {
 public:
-	SearchNode() : parent(nullptr)
-	{
+	SearchNode();
 
-	}
+	SearchNode(const T& k, const D& d);
 
-	SearchNode(const T& k, const D& d) : SearchNode(k, d, nullptr)
-	{
-	}
-
-	SearchNode(const T& k, const D& d, SearchNode<T, D>* p) : key(k), data(d), parent(p)
-	{
-	}
+	SearchNode(const T& k, const D& d, SearchNode<T, D>* p);
 
 	T key;
 	D data;
@@ -105,6 +94,21 @@ SearchTree<T, D>* SearchTree<T, D>::Search(const T& search, SearchNode<T, D>*& p
 		}
 	}
 	return tree;
+}
+
+template <class T, class D>
+SearchNode<T, D>::SearchNode(): parent(nullptr)
+{
+}
+
+template <class T, class D>
+SearchNode<T, D>::SearchNode(const T& k, const D& d, SearchNode<T, D>* p): key(k), data(d), parent(p)
+{
+}
+
+template <class T, class D>
+SearchNode<T, D>::SearchNode(const T& k, const D& d): SearchNode(k, d, nullptr)
+{
 }
 
 template <class T, class D>

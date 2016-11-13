@@ -4,7 +4,7 @@
 #include "../Tree/PointGenerator.h"
 using namespace std;
 
-int aantalDatapunten = 6000;
+int aantalDatapunten = 20;
 
 void AddTest()
 {
@@ -16,6 +16,7 @@ void AddTest()
 	for (int i = 0; i<aantalDatapunten; i++) {
 		double nupunt = PointGenerator.GetPoint();
 		tree.Add(nupunt, i);
+		cout << nupunt << "    \t" << i << endl;
 		aantal++;
 		if (aantal * 50 >= aantalDatapunten) {
 			dieptedata.push_back(tree.Depth());
@@ -28,6 +29,7 @@ void AddTest()
 int main()
 {
 	AddTest();
+
 	cin.get();
 	return 0;
 }

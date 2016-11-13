@@ -65,7 +65,7 @@ protected:
 	KDTree* Search(Point, Node*&);
 	KDTree* SearchNext(Point);
 	KDTree* SearchNext(Point p, Dimension d);
-	void GetClosestDFS(Point, pair<unsigned, KDTree*>&, int& visited, Dimension d);
+	bool GetClosestDFS(Point, pair<unsigned, KDTree*>&, int& visited, Dimension d);
 };
 
 class Node
@@ -85,7 +85,8 @@ public:
 	}
 
 	Dimension GetNextDimension() const;
-public:	Point point;
+public:
+	Point point;
 	KDTree left, right;
 	Dimension dimension;
 };
@@ -150,40 +151,56 @@ inline Dimension GetNextDimension(Dimension d)
 	return Dimension::x;
 }
 
-inline void KDTree::GetClosestDFS(Point p, pair<unsigned int, KDTree*>& best, int& visited, Dimension d)
+inline bool KDTree::GetClosestDFS(Point p, pair<unsigned int, KDTree*>& best, int& visited, Dimension d)
 {
-	if (this->get() == nullptr) return;
+	if (this->get() == nullptr) return false;;
 	visited++;
 	auto distance = (*this)->point.QuadraticDistance(p);
-	if (distance <= best.first) {
-		best = make_pair((*this)->point.QuadraticDistance(p), this);
-	}
-	if(d == Dimension::x)
+	bool returnPrune = false;
+	if (distance <= best.first)
 	{
-		if((*this)->point.x <= p.x)
+		best = make_pair((*this)->point.QuadraticDistance(p), this); 
+		returnPrune = true;
+	}
+	if (d == Dimension::x)
+	{
+		if ((*this)->point.x < p.x)
 		{
-			(*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
-			(*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			bool prune = (*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			if (!prune)
+			{
+				(*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			}
 		}
 		else
 		{
-			(*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
-			(*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			bool prune = (*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			if (!prune)
+			{
+				(*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			}
 		}
 	}
 	else
 	{
-		if ((*this)->point.y <= p.y)
+		if ((*this)->point.y < p.y)
 		{
-			(*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
-			(*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			bool prune = (*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			if (!prune)
+			{
+				(*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			}
 		}
 		else
 		{
-			(*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
-			(*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			bool prune = (*this)->left.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			if (!prune)
+			{
+				(*this)->right.GetClosestDFS(p, best, visited, GetNextDimension(d));
+			}
 		}
 	}
+	return returnPrune;
 }
 
 inline pair<unsigned, KDTree*> KDTree::GetClosest(Point p, int& visited)
@@ -203,8 +220,10 @@ inline bool KDTree::Read(string filename)
 {
 	ifstream input;
 	input.open(filename);
-	if (input.is_open()) {
-		while (!input.eof()) {
+	if (input.is_open())
+	{
+		while (!input.eof())
+		{
 			int x, y;
 			input >> x;
 			input >> y;

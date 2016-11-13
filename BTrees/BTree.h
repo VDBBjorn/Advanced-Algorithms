@@ -37,7 +37,7 @@ public:
 	vector<pair<string,int>> GetTopWords(int number)
 	{
 		vector<pair<string,int>> result(20);
-		//this->
+		
 		return result;
 	}
 
