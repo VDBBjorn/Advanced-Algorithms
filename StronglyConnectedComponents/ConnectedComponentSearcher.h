@@ -3,6 +3,7 @@
 #include <queue>
 
 using namespace std;
+typedef map<int, int> Knoop;
 
 template <RichtType RT>
 class ConnectedComponentSearcher
@@ -45,6 +46,7 @@ public:
 
 	explicit UndirectedComponentSearcher(Graaf<ONGERICHT>& graaf);
 	bool IsConnected() override;
+	void FindBridges();
 };
 
 template <RichtType RT>
@@ -68,12 +70,15 @@ inline bool DirectedCompontentSearcher::IsConnected()
 	return true;
 }
 
-inline void PostOrderDFS(const Graaf<GERICHT>& g, int i, stack<int> * q, vector<bool> & visited) {
-	if (!visited[i]) {
+inline void PostOrderDFS(const Graaf<GERICHT>& g, int i, stack<int>* q, vector<bool>& visited)
+{
+	if (!visited[i])
+	{
 		visited[i] = true;
 		q->push(i);
 		map<int, int> knoop = g[i];
-		for (auto it = knoop.begin(); it != knoop.end(); it++) {
+		for (auto it = knoop.begin(); it != knoop.end(); it++)
+		{
 			int neighbor = it->first;
 			PostOrderDFS(g, neighbor, q, visited);
 		}
@@ -82,20 +87,21 @@ inline void PostOrderDFS(const Graaf<GERICHT>& g, int i, stack<int> * q, vector<
 
 inline stack<int>& PostOrderDFS(const Graaf<GERICHT>& g)
 {
-	stack<int> * postorder = new stack<int>();
+	stack<int>* postorder = new stack<int>();
 	vector<bool> visited(g.aantalKnopen());
 	int i = 0;
-	while (postorder->size() < g.aantalKnopen()) {
+	while (postorder->size() < g.aantalKnopen())
+	{
 		PostOrderDFS(g, i++, postorder, visited);
 	}
 	return *postorder;
 }
 
 /// <summary>
-/// Determines whether a graph is strongly connected.
+/// Determines whether a directed graph is strongly connected.
 /// </summary>
 /// <returns>
-///   <c>true</c> if a graph is strongly connected; otherwise, <c>false</c>.
+///   <c>true</c> if a directed graph is strongly connected; otherwise, <c>false</c>.
 /// </returns>
 inline bool DirectedCompontentSearcher::IsStronglyConnected()
 {
@@ -139,11 +145,12 @@ inline Graaf<GERICHT>& DirectedCompontentSearcher::Inverse()
 
 inline vector<vector<int>>& DirectedCompontentSearcher::FindComponents(stack<int>& postorder)
 {
-	vector<vector<int> > * tree = new vector<vector<int> >();
+	vector<vector<int>>* tree = new vector<vector<int>>();
 
 	vector<bool> visited(Graph.aantalKnopen());
-	while (!postorder.empty()) {
-		vector<int> * connected = new vector<int>();
+	while (!postorder.empty())
+	{
+		vector<int>* connected = new vector<int>();
 		int i = postorder.top();
 		postorder.pop();
 		cout << i << endl;
@@ -154,13 +161,15 @@ inline vector<vector<int>>& DirectedCompontentSearcher::FindComponents(stack<int
 	return *tree;
 }
 
-inline void DirectedCompontentSearcher::DepthFirstSearchComponents(int i, vector<bool> & visited, vector<int>* connected)
+inline void DirectedCompontentSearcher::DepthFirstSearchComponents(int i, vector<bool>& visited, vector<int>* connected)
 {
-	if (!visited[i]) {
+	if (!visited[i])
+	{
 		visited[i] = true;
 		connected->push_back(i);
 		map<int, int> knoop = Graph[i];
-		for (auto it = knoop.begin(); it != knoop.end(); it++) {
+		for (auto it = knoop.begin(); it != knoop.end(); it++)
+		{
 			int neighbor = it->first;
 			DepthFirstSearchComponents(neighbor, visited, connected);
 		}
@@ -180,6 +189,58 @@ inline bool UndirectedComponentSearcher::IsConnected()
 			return false;
 	}
 	return true;
+}
+
+template <RichtType RT>
+inline void RecFindBridges(vector<bool>& discovered, vector<int>& parent, vector<int>& pre, vector<int>& lowest, int num, int i, Graaf<RT>& g)
+{
+	discovered[i] = true;
+	pre[i] = num++;
+	lowest[i] = pre[i]; // initialisatie: elke knoop bereikt minstens zichzelf
+
+	// Alle buren ophalen en over lopen
+	Knoop buren = g[i];
+	map<int, int>::iterator buren_it = buren.begin();
+	while (buren_it != buren.end())
+	{
+		auto buur = buren_it->first;
+		if (!discovered[buur])
+		{
+			// boomtak, dus kind van i
+			parent[buur] = i;
+			RecFindBridges(discovered, parent, pre, lowest, num, buur, g); // recursief oproepen
+			if (lowest[buur] < lowest[i])
+				lowest[i] = lowest[buur]; // nieuw minimum
+			else if (lowest[buur] >= pre[i]) // voor bruggen: laagst[buur] > pre[i]
+				cout << "Knoop " << i << " is brug voor " << buur << endl;
+		}
+		else
+		{
+			if (buur != parent[i]) // eventueel terugverbinding
+				if (pre[buur] < lowest[i]) // dan is zeker pre[buur] < pre[i] : dus terugverbinding
+					lowest[i] = pre[buur]; // nieuw minimum
+		}
+		++buren_it;
+	}
+}
+
+/// <summary>
+/// Finds the bridges of a component.
+/// </summary>
+/// <returns></returns>
+inline void UndirectedComponentSearcher::FindBridges()
+{
+	vector<bool> discovered(Graph.aantalKnopen());
+	vector<int> parents(Graph.aantalKnopen());
+	vector<int> pre(Graph.aantalKnopen());
+	vector<int> lowest(Graph.aantalKnopen());
+	for (int i = 0; i < Graph.aantalKnopen(); i++)
+	{ // initialisatie
+		discovered[i] = false;
+		parents[i] = -1; // nog geen ouder
+	}
+	int num = 0; // initialisatie preordernummering
+	RecFindBridges(discovered, parents, pre, lowest, num, 0, Graph); // rec_zoek_bruggen(0)
 }
 
 template <RichtType RT>
