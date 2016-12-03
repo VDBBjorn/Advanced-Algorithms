@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EulerCircuitSearcher.h" />
     <ClInclude Include="Graaf.h" />
     <ClInclude Include="ConnectedComponentSearcher.h" />
   </ItemGroup>

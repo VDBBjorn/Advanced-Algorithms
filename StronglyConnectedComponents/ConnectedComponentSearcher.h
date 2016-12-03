@@ -208,11 +208,11 @@ inline void RecFindBridges(vector<bool>& discovered, vector<int>& parent, vector
 		{
 			// boomtak, dus kind van i
 			parent[buur] = i;
-			RecFindBridges(discovered, parent, pre, lowest, num, buur, g); // recursief oproepen
+			RecFindBridges(discovered, parent, pre, lowest, num, buur, g); // recursief oproepen voor buur
 			if (lowest[buur] < lowest[i])
 				lowest[i] = lowest[buur]; // nieuw minimum
 			else if (lowest[buur] >= pre[i]) // voor bruggen: laagst[buur] > pre[i]
-				cout << "Knoop " << i << " is brug voor " << buur << endl;
+				cout << "Knoop " << i << " is brug voor knoop " << buur << endl;
 		}
 		else
 		{
@@ -237,10 +237,10 @@ inline void UndirectedComponentSearcher::FindBridges()
 	for (int i = 0; i < Graph.aantalKnopen(); i++)
 	{ // initialisatie
 		discovered[i] = false;
-		parents[i] = -1; // nog geen ouder
+		parents[i] = -1; // nog geen ouders
 	}
-	int num = 0; // initialisatie preordernummering
-	RecFindBridges(discovered, parents, pre, lowest, num, 0, Graph); // rec_zoek_bruggen(0)
+	auto num = 0; // initialisatie preordernummering
+	RecFindBridges(discovered, parents, pre, lowest, num, 0, Graph); 
 }
 
 template <RichtType RT>
