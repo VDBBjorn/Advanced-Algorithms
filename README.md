@@ -55,25 +55,27 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 -----------------
 * ~~Connected graphs~~
 
-* Strongly connected components
-	* in an indirected graph
-	* in a directed graph (Kosaraju)
+* ~~Strongly connected components~~
+	* ~~in an indirected graph~~
+	* ~~in a directed graph (Kosaraju)~~
 	
-* Biconnected graph
+* ~~Biconnected graph~~
  
-* Eulercircuits
+* ~~Eulercircuits~~
 
-* Bellman-Ford
+* ~~Bellman-Ford~~
 
 * Johnson
 
-* Maximum current
+* ~~Maximum current~~
 
 * Stable Marriage
 
 * Digital searchtrees
 
 * Tries
+	* ~~Binary tries~~
+	* Multiway tries
 
 * Patriciatries
 
