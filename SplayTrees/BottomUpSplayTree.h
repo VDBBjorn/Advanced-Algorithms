@@ -147,7 +147,7 @@ BottomUpSplayTree<T, D>* BottomUpSplayTree<T, D>::BottomUpSplay()
 		// Er is geen grootouder meer -> roteer over root
 		if (grandParent == nullptr)
 		{
-			root->Rotate(false);
+			//root->Rotate(false);
 		}
 		// Er is nog een grootouder
 		else
@@ -266,7 +266,8 @@ BottomUpSplayTree<T, D>* SplayNode<T, D>::GetParentTree()
 		else
 		{
 			// root is parent
-			return ;
+			//return root;
+			return nullptr;
 		}
 	}
 	return nullptr;

@@ -47,6 +47,7 @@ beschrijving: Deelklasse van vorigen, met data bij elke tak.
 #include <map>
 #include <stack>
 #include <exception>
+#include <iostream>
 
 
 enum RichtType
@@ -75,8 +76,8 @@ class Graaf
 {
 public:
 	typedef std::map<int, int> Knoop; // beeldt knoopnummer (van buur) af op verbindingsnummer
-	// Construeert een graaf met gegeven RichtType en aantal knopen (default 0), zonder verbindingen.
-	explicit Graaf(int n = 0);
+									  // Construeert een graaf met gegeven RichtType en aantal knopen (default 0), zonder verbindingen.
+	Graaf(int n = 0);
 
 	// Geeft true indien het richttype GERICHT is, false indien het ONGERICHT is.
 	static bool isGericht();
@@ -125,7 +126,7 @@ public:
 	} // deze kan als lvalue gebruikt worden
 
 
-	// Schrijft de gegevens van de volledige graaf naar outputstream os.
+	  // Schrijft de gegevens van de volledige graaf naar outputstream os.
 	virtual void schrijf(std::ostream& os) const;
 
 	// Schrijft de gegevens van de knoop met knoopnummer k naar outputstream os.
@@ -135,11 +136,15 @@ public:
 	virtual void schrijfVerbinding(std::ostream& os, int v) const;
 
 
+	void init(int i);
+	void lees(std::istream& is);
+
 protected:
 	// hulpfuncties
 	void controleerKnoopnummer(int k) const; // throw indien k ongeldig
 	void voegVerbindingToeInDatastructuur(int van, int naar, int verbindingsnummer);
 	void verwijderVerbindingUitDatastructuur(int van, int naar);
+	void leesVerbinding(std::istream& is);
 protected:
 	//datavelden
 	std::vector<Knoop> knopen;
@@ -222,7 +227,7 @@ void Graaf<RT>::voegVerbindingToeInDatastructuur(int van, int naar, int verbindi
 }
 
 template <>
-void Graaf<ONGERICHT>::voegVerbindingToeInDatastructuur(int van, int naar, int verbindingsnummer)
+inline void Graaf<ONGERICHT>::voegVerbindingToeInDatastructuur(int van, int naar, int verbindingsnummer)
 {
 	knopen[van][naar] = verbindingsnummer;
 	knopen[naar][van] = verbindingsnummer;
@@ -248,7 +253,7 @@ void Graaf<RT>::verwijderVerbindingUitDatastructuur(int van, int naar)
 }
 
 template <>
-void Graaf<ONGERICHT>::verwijderVerbindingUitDatastructuur(int van, int naar)
+inline void Graaf<ONGERICHT>::verwijderVerbindingUitDatastructuur(int van, int naar)
 {
 	knopen[van].erase(naar);
 	knopen[naar].erase(van);
@@ -292,7 +297,7 @@ template <RichtType RT>
 void Graaf<RT>::schrijf(std::ostream& os) const
 {
 	os << "Graaf: " << aantalKnopen() << " knopen en "
-			<< aantalVerbindingen() << " verbindingen:" << std::endl;
+		<< aantalVerbindingen() << " verbindingen:" << std::endl;
 	for (int k = 0; k < aantalKnopen(); k++)
 		schrijfKnoop(os, k);
 }
@@ -312,6 +317,12 @@ template <RichtType RT>
 void Graaf<RT>::schrijfVerbinding(std::ostream& os, int v) const
 {
 	os << " via " << v << std::endl;
+}
+
+template <RichtType RT>
+void Graaf<RT>::init(int i)
+{
+	knopen.resize(i);
 }
 
 template <RichtType RT>
@@ -378,7 +389,7 @@ const Takdata* GraafMetTakdata<RT, Takdata>::geefTakdata(int van, int naar) cons
 	if (taknummer != -1)
 		return &takdatavector[taknummer];
 	else
-		return nullptr;
+		return 0;
 }
 
 template <RichtType RT, class Takdata>
@@ -488,7 +499,7 @@ void GraafMetKnoopdata<RT, Knoopdata>::schrijfKnoop(std::ostream& os, int k) con
 
 template <RichtType RT, class Knoopdata, class Takdata>
 class GraafMetKnoopEnTakdata :public GraafMetKnoopdata<RT, Knoopdata>,
-							  public GraafMetTakdata<RT, Takdata>
+	public GraafMetTakdata<RT, Takdata>
 {
 public:
 	template <class InputIterator>
@@ -508,5 +519,31 @@ public:
 		this->takdatavector.clear();
 	}
 };
+
+template <RichtType TYPE>
+void Graaf<TYPE>::leesVerbinding(std::istream& is)
+{
+	int van, naar;
+	is >> van >> naar;
+	voegVerbindingToe(van, naar);
+}
+
+template <RichtType TYPE>
+void Graaf<TYPE>::lees(std::istream& is)
+{
+	std::string type;
+	int n, m;
+	is >> type;
+	if (TYPE == GERICHT && type != "gericht" || TYPE == ONGERICHT && type != "ongericht")
+		throw GraafExceptie("Graaftype klopt niet");
+	is >> n;
+	init(n);
+	is >> m;
+
+	for (int j = 0; j < m; j++)
+		leesVerbinding(is);
+	if (!is)
+		throw GraafExceptie("Fout bij het inlezen");
+}
 
 #endif // __GRAAF_H

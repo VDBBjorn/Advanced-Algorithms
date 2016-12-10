@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Flow.h">
+    <ClInclude Include="BellmanFord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graaf.h">

@@ -12,9 +12,11 @@ public:
 	explicit EulerCircuitSearcher(Graaf<RT>&);
 	virtual ~EulerCircuitSearcher();
 
-	bool IsEveryNodeEven();
+	vector<int> GetEulerPath();
+
 	bool IsEulerGraph();
 	bool IsConnected();
+	bool IsEveryNodeEven();
 protected: 
 	Graaf<RT> Graph;
 	vector<bool> DepthFirstSearch();
@@ -29,6 +31,14 @@ EulerCircuitSearcher<RT>::EulerCircuitSearcher(Graaf<RT>& g)
 template <RichtType RT>
 EulerCircuitSearcher<RT>::~EulerCircuitSearcher()
 {
+}
+
+/* 
+*/
+template <RichtType RT>
+vector<int> EulerCircuitSearcher<RT>::GetEulerPath()
+{
+	
 }
 
 template <RichtType RT>
@@ -87,11 +97,11 @@ vector<bool> EulerCircuitSearcher<RT>::DepthFirstSearch()
 	}
 	return discovered;
 }
-
+/// 
 /// (1) Een samenhangende (multi)graaf G is een Eulergraaf.
 /// (2) De graad van elke knoop van G is even.
 /// (3) De verbindingen van G kunnen onderverdeeld worden in lussen. (Deze verdeling
-/// 	is een partitie : elke verbinding behoort tot ´e´en enkele lus.)
+/// 	is een partitie : elke verbinding behoort tot een enkele lus.)
 template <RichtType RT>
 bool EulerCircuitSearcher<RT>::IsEulerGraph()
 {

@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{43EA13C0-1E63-4155-81A6-6A8B4CFA3935}</ProjectGuid>
-    <RootNamespace>NetworkFlow</RootNamespace>
+    <ProjectGuid>{E566E9B1-3846-4508-80CF-15B6E21E1BA5}</ProjectGuid>
+    <RootNamespace>BellmanFord</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -110,7 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Flow.h" />
+    <ClInclude Include="BellmanFord.h" />
     <ClInclude Include="Graaf.h" />
   </ItemGroup>
   <ItemGroup>
