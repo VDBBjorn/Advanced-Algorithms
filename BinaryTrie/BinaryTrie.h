@@ -6,7 +6,7 @@ class Node;
 typedef unsigned int uint;
 using namespace std;
 
-class BTrie : unique_ptr<Node>
+class BTrie : public unique_ptr<Node>
 {
 	using unique_ptr<Node>::unique_ptr;
 public:
