@@ -54,7 +54,7 @@ inline void PrefixFunction(vector<int>& v, string prefix)
 
 inline vector<int>& KnuthMorrisPratt::Execute() const
 {
-	vector<int> prefixVector(prefix.size());
+	vector<int> prefixVector(prefix.size(),-1);
 	PrefixFunction(prefixVector, prefix);
 
 	return prefixVector;

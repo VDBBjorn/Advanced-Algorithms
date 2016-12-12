@@ -3,7 +3,7 @@
 #include <iostream>
 using std::ostream;
 typedef unsigned int uint;
-const int patroonlengte = sizeof(uint) * 8;
+const int patternLenght = sizeof(uint) * 8;
 class Key {
 public:
 	uint bits;
@@ -47,10 +47,10 @@ public:
 	//niet beveiligd: u moet kleiner dan patroonlengte zijn.
 	static Key eenbit(uint u) {
 		//vanaf meest significant, aantal keer naar rechts opschijven vanaf meest significante
-		return Key(uint(1) << (patroonlengte - 1 - u));
+		return Key(uint(1) << (patternLenght - 1 - u));
 	}
 	friend ostream& operator<<(ostream& os, const Key& b) {
-		for (int i = 0; i<patroonlengte; i++) {
+		for (int i = 0; i<patternLenght; i++) {
 			os << b.en(eenbit(i));
 		}
 		return os;
@@ -61,11 +61,11 @@ public:
 		return bits& uint(1) << (i - 1);
 	}
 
-	int verschilbit(const Key& s2) {
-		int teller = patroonlengte;
+	int difference(const Key& s2) const
+	{
+		int teller = patternLenght;
 
 		while (bit(teller) == s2.bit(teller) && teller >= 0) {
-			//	cout<<teller<<" libnks "<<bit(teller) <<"rechts "<<s2.bit(teller)<<endl;
 			teller--;
 		}
 

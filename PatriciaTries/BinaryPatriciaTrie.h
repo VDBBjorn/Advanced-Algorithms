@@ -46,10 +46,8 @@ inline BinaryPatriciaTrie* BinaryPatriciaTrie::Search(const Key& key)
 
 inline BinaryPatriciaTrie* BinaryPatriciaTrie::Search(const Key& key, int index)
 {
-	if ((*this)->index <= index)
+	if ((*this)->index <= index) //terugverbinding of verwijst naar jezelf = stoppen
 	{
-		//huidige index kleiner dan k dat een kind is
-		//terug verbinding of knoop naar jezelf, stoppen met zoeken
 		return this;
 	}
 	if (key.bit((*this)->index)) { 
@@ -60,19 +58,25 @@ inline BinaryPatriciaTrie* BinaryPatriciaTrie::Search(const Key& key, int index)
 
 inline BinaryPatriciaTrie* BinaryPatriciaTrie::Add(const Key& key)
 {
-	return Add(key, -1);
+	BinaryPatriciaTrie * search = Search(key, -1);
+	if((*search)->key == key) //bestaat al!
+	{
+		return search;
+	}
+	int difference = (*search)->key.difference(key);
+	cout << "Difference between current key and key to add: " << difference << endl;
+
+
 }
 
-inline BinaryPatriciaTrie* BinaryPatriciaTrie::Add(const Key& key, int index)
+inline BinaryPatriciaTrie* BinaryPatriciaTrie::Add(const Key& key, int difference)
 {
-	//1. grotere index gevonden dan verschil index
-	// -> nieuwe knoop tussen voegen
-	// -> sleutel in knoop opslaan
-	// -> gepaste wijzer naar knoop wijzen
-	/*if()
-	{
-		
-	}*/
-	//2. geen knoop met hogere index, je zit eigenlijk nog steeds parent zijn links of rechts aan te passen
-	//eidigen in blad	
+
+	if (key.bit((*this)->index)) {
+		(*this)->right = (*this)->right->Add(key, (*this)->index);
+	}
+	else {
+		(*this)->left = (*this)->left->Add(key, (*this)->index);
+	}
+	return this;
 }

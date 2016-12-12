@@ -3,7 +3,7 @@
 #include <iostream>
 using std::ostream;
 typedef unsigned int uint;
-const int patroonlengte = sizeof(uint) * 3;
+const int patternLenght = sizeof(uint) * 3;
 
 class BitPattern
 {
@@ -64,12 +64,12 @@ public:
 	//niet beveiligd: u moet kleiner dan patroonlengte zijn.
 	static BitPattern eenbit(uint u)
 	{
-		return BitPattern(uint(1) << (patroonlengte - 1 - u));
+		return BitPattern(uint(1) << (patternLenght - 1 - u));
 	}
 
 	bool operator==(const BitPattern& b) const
 	{
-		for (int i = 0; i < patroonlengte; i++)
+		for (int i = 0; i < patternLenght; i++)
 		{
 			if (b.en(eenbit(i)) != this->en(eenbit(i)))
 			{
@@ -81,7 +81,7 @@ public:
 
 	friend ostream& operator<<(ostream& os, const BitPattern& b)
 	{
-		for (int i = 0; i < patroonlengte; i++)
+		for (int i = 0; i < patternLenght; i++)
 		{
 			os << b.en(eenbit(i));
 		}
