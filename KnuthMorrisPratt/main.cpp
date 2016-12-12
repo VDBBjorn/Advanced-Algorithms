@@ -11,7 +11,7 @@ ostream& operator<<(ostream& os, const vector<int>& v) {
 
 int main()
 {
-	KnuthMorrisPratt kmp("abcdabca", "abcdabcx");
+	KnuthMorrisPratt kmp("ab", "abcdabcx");
 	vector<int> result = kmp.Execute();
 
 	cout << result << endl;

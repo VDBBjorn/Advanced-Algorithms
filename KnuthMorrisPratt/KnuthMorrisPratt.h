@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <vector>
 
 using namespace std;
@@ -7,55 +6,78 @@ using namespace std;
 class KnuthMorrisPratt
 {
 public:
-	KnuthMorrisPratt(string prefix, string text):prefix(prefix), text(text)
+	KnuthMorrisPratt(string prefix, string text): prefix(prefix), text(text)
 	{
-		
+		prefixVector = vector<int>(prefix.size(), 0);
 	}
 
-	vector<int>& Execute() const;
+	vector<int> Execute();
 private:
+	void CalculatePrefixFunction();
 	string prefix;
 	string text;
+	vector<int> prefixVector;
 };
 
-inline void PrefixFunction(vector<int>& v, string prefix)
+inline vector<int> KnuthMorrisPratt::Execute()
 {
-	int j=0;
+	CalculatePrefixFunction();
+	vector<int> results;
+	int i = 0, j = 0;
+	while (i < text.size()) {
+		while (text[i] == prefix[j])
+		{
+			if (j == (prefix.size() - 1)) {
+				results.push_back(i - prefix.size() + 1);
+				i++;
+				j = 0;
+			}
+			else {
+				i++; j++;
+			}
+		}
+		if (j != 0) {
+			j = prefixVector[j - 1];
+		}
+		else
+		{
+			i++;
+		}
+	}
+
+	return results;
+}
+
+inline void KnuthMorrisPratt::CalculatePrefixFunction()
+{
+	int j = 0;
 	if (prefix.size() <= 0)
 		return;
-	v[0] = 0;
-	for(int i=1; i<prefix.size();i++)
+	prefixVector[0] = 0;
+	for (int i = 1; i < prefix.size(); i++)
 	{
-		if(prefix[j] == prefix[i])
+		if (prefix[j] == prefix[i])
 		{
-			v[i] = v[j] + 1;
+			prefixVector[i] = j + 1;
 			j++;
 		}
 		else
 		{
-			if (j == 0) {
-				v[i] = 0;
+			if (j == 0)
+			{
+				prefixVector[i] = 0;
 			}
 			else
 			{
-				j = v[j - 1];
-				if(prefix[i] == prefix[j])
+				while(prefix[i] != prefix[j] && j>0)
 				{
-					v[i] = v[j] + 1;
+					j = prefixVector[j - 1];					
 				}
-				else
+				if (prefix[i] == prefix[j])
 				{
-					v[i] = 0;
+					prefixVector[i] = j + 1;
 				}
 			}
 		}
 	}
-}
-
-inline vector<int>& KnuthMorrisPratt::Execute() const
-{
-	vector<int> prefixVector(prefix.size(),-1);
-	PrefixFunction(prefixVector, prefix);
-
-	return prefixVector;
 }
