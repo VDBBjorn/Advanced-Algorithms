@@ -11,11 +11,6 @@ class BoyerMooreBadCharHeuristic: protected BoyerMoore
 public: 
 	BoyerMooreBadCharHeuristic(string& text, string& pattern);
 	vector<int>* Search() override;
-
-	virtual ~BoyerMooreBadCharHeuristic()
-	{
-	}
-
 protected:
 	void BadCharHeuristic();
 	vector<int> badchar;

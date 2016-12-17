@@ -113,6 +113,7 @@
     <ClInclude Include="BoyerMoore.h" />
     <ClInclude Include="BoyerMooreBadCharHeuristic.h" />
     <ClInclude Include="BoyerMooreHorspool.h" />
+    <ClInclude Include="BoyerMooreSunday.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

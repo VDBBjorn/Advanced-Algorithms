@@ -5,11 +5,6 @@ class BoyerMooreHorspool: BoyerMoore
 {
 public:
 	BoyerMooreHorspool(const string& text, const string& pattern);
-
-	virtual ~BoyerMooreHorspool()
-	{
-	}
-
 	vector<int>* Search() override;
 private:
 	void Horspool();

@@ -13,11 +13,12 @@ class BoyerMoore
 {
 public:
 	BoyerMoore(string text, string pattern);
-	virtual vector<int>* Search() = 0;
 
 	virtual ~BoyerMoore()
 	{
 	}
+
+	virtual vector<int>* Search() = 0;
 
 protected:
 	string text;
