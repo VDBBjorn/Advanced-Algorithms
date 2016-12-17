@@ -86,7 +86,8 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 * Boyer-Moore
 	* ~~Simple~~
 	* ~~Horspool~~
-	* Sunday
+	* ~~Sunday~~
+	* Good suffix
 
 * Karp-Rabinal
 
