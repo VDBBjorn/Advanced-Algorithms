@@ -1,5 +1,6 @@
 #include "BoyerMooreBadCharHeuristic.h"
 #include <iostream>
+#include "BoyerMooreHorspool.h"
 
 string print(string text, int occurence, int length)
 {
@@ -17,7 +18,7 @@ int main()
 {
 	string text = "dit is een test en dit is een ander testje";
 	string pattern = "test";
-	BoyerMooreBadCharHeuristic bm(text,pattern);
+	BoyerMooreHorspool bm(text,pattern);
 	vector<int>* occurences = bm.Search();
 	for (auto occurence : *occurences)
 	{

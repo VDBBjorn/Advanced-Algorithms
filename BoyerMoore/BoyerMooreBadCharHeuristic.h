@@ -12,9 +12,11 @@ public:
 	BoyerMooreBadCharHeuristic(string& text, string& pattern);
 	vector<int>* Search() override;
 
-	~BoyerMooreBadCharHeuristic()
+	virtual ~BoyerMooreBadCharHeuristic()
 	{
 	}
+
+protected:
 	void BadCharHeuristic();
 	vector<int> badchar;
 };
@@ -27,20 +29,24 @@ inline BoyerMooreBadCharHeuristic::BoyerMooreBadCharHeuristic(string& text, stri
 inline vector<int>* BoyerMooreBadCharHeuristic::Search()
 {
 	vector<int>* occurences = new vector<int>();
-	BadCharHeuristic();
-	int n = text.size();
-	int m = pattern.size();
-	int shift = 0;
-	while (shift <= (n - m))
+	if(pattern.size() <= 0 || text.size()<=0 || pattern.size()>text.size())
 	{
-		int j = m - 1; // start at the end of the pattern
+		return occurences;
+	}
+	BadCharHeuristic();
+	int t = text.size();
+	int p = pattern.size();
+	int shift = 0;
+	while (shift <= (t - p))
+	{
+		int j = p - 1; // start at the end of the pattern
 		while (j >= 0 && pattern[j] == text[shift + j])
 			j--;
 
 		if (j < 0)
 		{
 			occurences->push_back(shift);
-			shift += (shift + m < n) ? m - badchar[text[shift + m]] : 1;
+			shift += (shift + p < t) ? p - badchar[text[shift + p]] : 1;
 		}
 		else
 		{

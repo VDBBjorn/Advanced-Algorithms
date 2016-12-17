@@ -14,15 +14,16 @@ class BoyerMoore
 public:
 	BoyerMoore(string text, string pattern);
 	virtual vector<int>* Search() = 0;
-protected:
-	~BoyerMoore()
+
+	virtual ~BoyerMoore()
 	{
 	}
+
+protected:
 	string text;
 	string pattern;
 };
 
 inline BoyerMoore::BoyerMoore(string text, string pattern): text(text), pattern(pattern)
 {
-
 }
