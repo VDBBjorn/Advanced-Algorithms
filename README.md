@@ -81,7 +81,7 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 
 * Ternary searchtrees
 
-* Knuth-Morris-Pratt
+* ~~Knuth-Morris-Pratt~~
 
 * Boyer-Moore
 
