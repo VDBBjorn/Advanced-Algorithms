@@ -1,8 +1,8 @@
-# Gevorderde-Algoritmen
+# Advanced Algorithms
 Algorithms implemented *by me* for the course "Advanced Algorithms" (J. Cnops) at the Ghent University (Master of Science in Industrial Engineering: Information Science)
 
 ## Build
-Use Visual Studio to open the solution and compile all the projects at once. All projects have been tested and are fully working as of 12/2016. 
+Use Visual Studio to open the solution and compile all the projects at once. All projects may of may not be working in the correct "algorithmic" way. 
 
 ## Note
 It might also be possible to use these with the GNU C++ compiler, although this has not been tested.
@@ -52,7 +52,7 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 
 * Heaps
 
------------------
+----------------- 
 * ~~Connected graphs~~
 
 * ~~Strongly connected components~~
@@ -84,6 +84,9 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 * ~~Knuth-Morris-Pratt~~
 
 * Boyer-Moore
+	* ~~Simple~~
+	* ~~Horspool~~
+	* Sunday
 
 * Karp-Rabinal
 
