@@ -13,7 +13,6 @@ public:
 	vector<int>* Search() override;
 protected:
 	void BadCharHeuristic();
-	vector<int> badchar;
 };
 
 inline BoyerMooreBadCharHeuristic::BoyerMooreBadCharHeuristic(string& text, string& pattern): BoyerMoore(text, pattern)
@@ -45,7 +44,6 @@ inline vector<int>* BoyerMooreBadCharHeuristic::Search()
 		}
 		else
 		{
-			// ofwel 1 positie ofwel 0
 			shift += max(1, j - badchar[text[shift + j]]);
 		}
 	}
@@ -58,5 +56,5 @@ inline vector<int>* BoyerMooreBadCharHeuristic::Search()
 inline void BoyerMooreBadCharHeuristic::BadCharHeuristic()
 {
 	for (int i = 0; i < pattern.size(); i++)
-		badchar[static_cast<int>(pattern[i])] = i;
+		badchar[pattern[i]] = i;
 }

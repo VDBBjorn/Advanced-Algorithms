@@ -8,7 +8,6 @@ public:
 	vector<int>* Search() override;
 private:
 	void Horspool();
-	vector<int> badchar;
 };
 
 inline BoyerMooreHorspool::BoyerMooreHorspool(const string& text, const string& pattern): BoyerMoore(text, pattern)

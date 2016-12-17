@@ -21,6 +21,7 @@ public:
 	virtual vector<int>* Search() = 0;
 
 protected:
+	vector<int> badchar;
 	string text;
 	string pattern;
 };
