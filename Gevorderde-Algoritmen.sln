@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoyerMoore", "BoyerMoore\Bo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KarpRabinal", "KarpRabinal\KarpRabinal.vcxproj", "{2C11CF8C-49BB-4E2C-94FE-9812953F7BD0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SuffixTrees", "SuffixTrees\SuffixTrees.vcxproj", "{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,16 @@ Global
 		{2C11CF8C-49BB-4E2C-94FE-9812953F7BD0}.Release|x64.Build.0 = Release|x64
 		{2C11CF8C-49BB-4E2C-94FE-9812953F7BD0}.Release|x86.ActiveCfg = Release|Win32
 		{2C11CF8C-49BB-4E2C-94FE-9812953F7BD0}.Release|x86.Build.0 = Release|Win32
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Debug|x64.ActiveCfg = Debug|x64
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Debug|x64.Build.0 = Debug|x64
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Debug|x86.ActiveCfg = Debug|Win32
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Debug|x86.Build.0 = Debug|Win32
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Release|Any CPU.ActiveCfg = Release|Win32
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Release|x64.ActiveCfg = Release|x64
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Release|x64.Build.0 = Release|x64
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Release|x86.ActiveCfg = Release|Win32
+		{0DBFE8A5-7BF9-46D4-80BE-A5B8EC98B664}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
