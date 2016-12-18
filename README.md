@@ -91,7 +91,7 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 
 * Karp-Rabinal
 
-* Shift-And
+* ~~Shift-And~~
 
 * Suffixtrees
 
