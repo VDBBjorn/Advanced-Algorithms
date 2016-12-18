@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="BoyerMoore.h" />
     <ClInclude Include="BoyerMooreBadCharHeuristic.h" />
+    <ClInclude Include="BoyerMooreGoodSuffix.h" />
     <ClInclude Include="BoyerMooreHorspool.h" />
     <ClInclude Include="BoyerMooreSunday.h" />
   </ItemGroup>

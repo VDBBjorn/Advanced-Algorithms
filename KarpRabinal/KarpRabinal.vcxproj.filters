@@ -15,19 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoyerMoore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoyerMooreBadCharHeuristic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoyerMooreHorspool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoyerMooreSunday.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoyerMooreGoodSuffix.h">
+    <ClInclude Include="KarpRabinal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
