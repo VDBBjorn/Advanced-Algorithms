@@ -8,7 +8,7 @@
 using namespace std;
 
 typedef map<int, int>  Knoop;
-int INF = std::numeric_limits<int>::max();
+int INF = numeric_limits<int>::max();
 
 inline ostream & operator<<(ostream& os, vector<int> & v) {
 	for (auto branch : v) {
@@ -28,13 +28,11 @@ protected:
 
 inline BellmanFord::BellmanFord(GraafMetTakdata<GERICHT, int> & graaf) {
 	int iteraties = graaf.aantalKnopen() - 1;
-	costs = *(new vector<int>(graaf.aantalKnopen()));
+	costs = *(new vector<int>(graaf.aantalKnopen(),INF));
 	costs[0] = 0;
 	queue<int> q;
 	queue<int> q2;
-	q.push(0);
-	for (int i = 1; i<graaf.aantalKnopen(); i++) {
-		costs[i] = INF;
+	for (int i = 0; i<graaf.aantalKnopen(); i++) {
 		q.push(i);
 	}
 	int iteratie = 0;

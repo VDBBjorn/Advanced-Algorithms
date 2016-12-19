@@ -29,7 +29,7 @@ public:
 
 	explicit DirectedCompontentSearcher(Graaf<GERICHT>& graaf);
 	bool IsConnected() override;
-	bool IsStronglyConnected();
+	static bool IsStronglyConnected();
 	vector<vector<int>>& FindConnectedComponents();
 protected:
 	Graaf<GERICHT>& Inverse();
@@ -146,8 +146,7 @@ inline Graaf<GERICHT>& DirectedCompontentSearcher::Inverse()
 inline vector<vector<int>>& DirectedCompontentSearcher::FindComponents(stack<int>& postorder)
 {
 	vector<vector<int>>* tree = new vector<vector<int>>();
-
-	vector<bool> visited(Graph.aantalKnopen());
+	vector<bool> visited(Graph.aantalKnopen(),false);
 	while (!postorder.empty())
 	{
 		vector<int>* connected = new vector<int>();
@@ -246,11 +245,7 @@ inline void UndirectedComponentSearcher::FindBridges()
 template <RichtType RT>
 vector<bool> ConnectedComponentSearcher<RT>::DepthFirstSearch()
 {
-	vector<bool> discovered(Graph.aantalKnopen());
-	for (int i = 0; i < discovered.size(); i++)
-	{
-		discovered[i] = false;
-	}
+	vector<bool> discovered(Graph.aantalKnopen(),false);
 	queue<int> q;
 	q.push(0);
 	discovered[0] = true;

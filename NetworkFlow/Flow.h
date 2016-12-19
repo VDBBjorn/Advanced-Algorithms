@@ -1,5 +1,4 @@
 #pragma once
-#include <cassert>
 #include <ostream>
 #include <vector>
 #include "Graaf.h"
@@ -72,7 +71,6 @@ Vergrotendpadzoeker<T>::Vergrotendpadzoeker(const GraafMetTakdata<GERICHT, T>& _
 			T nucapaciteit = *gr.geefTakdata(pad[i - 1], pad[i]);
 			if (nucapaciteit < capaciteit)
 				capaciteit = nucapaciteit;
-			assert(capaciteit > 0);
 		}
 		pad.zetCapaciteit(capaciteit);
 	}
@@ -81,8 +79,6 @@ Vergrotendpadzoeker<T>::Vergrotendpadzoeker(const GraafMetTakdata<GERICHT, T>& _
 template <class T>
 void Vergrotendpadzoeker<T>::verwerk(int knoopnr, int diepte)
 {
-	//    std::cerr <<" knoopnr "<<knoopnr  <<" <? "<< gr.aantalKnopen()<<"\n";
-	assert(knoopnr < gr.aantalKnopen());
 	bezocht[knoopnr] = true;
 	const typename GraafMetTakdata<GERICHT, T>::Knoop& kn = gr[knoopnr];
 	int nudiepte = diepte + 1;
@@ -102,13 +98,10 @@ void Vergrotendpadzoeker<T>::verwerk(int knoopnr, int diepte)
 					pad[i--] = nunr;
 					nunr = voorganger[nunr];
 				}
-				assert(i == 0);
-				assert(nunr == van);
 				pad[0] = nunr;
 			}
 			else if (it->first != naar && !bezocht[kind])
 			{
-				assert(*gr.geefTakdata(knoopnr, kind)> 0);
 				voorganger[kind] = knoopnr;
 				verwerk(kind, nudiepte);
 			}
@@ -224,7 +217,6 @@ public:
 					this->voegVerbindingToe(van, naar, pad.geefCapaciteit());
 				}
 			}
-			//			this->voegVerbindingToe(naar,van,pad.geefCapaciteit());
 			van = naar;
 		}
 		return *this;
