@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="Evolutor.h" />
     <ClInclude Include="Graaf.h" />
+    <ClInclude Include="GrootsteIndependentSet.h" />
     <ClInclude Include="Subset.h" />
   </ItemGroup>
   <ItemGroup>
