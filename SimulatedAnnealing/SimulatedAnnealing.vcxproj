@@ -111,10 +111,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="SimulatedAnnealing.h" />
+    <ClInclude Include="sinterklaas.h" />
     <ClInclude Include="SmallestValue.h" />
+    <ClInclude Include="Sodor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_posters.cpp" />
+    <ClCompile Include="sinterklaas_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="t.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

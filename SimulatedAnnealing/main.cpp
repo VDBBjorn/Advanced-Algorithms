@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <ctime>
 #include "SmallestValue.h"
@@ -11,3 +12,4 @@ int main() {
 	std::cin.get();
 	return 0;
 }
+*/

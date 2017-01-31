@@ -27,6 +27,7 @@ template <RichtType RT>
 double GrootsteIndependentSet<RT>::f(const Subset& p)
 {
 	//implementation
+
 	return 0;
 }
 
