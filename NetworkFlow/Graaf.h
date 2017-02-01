@@ -50,7 +50,7 @@ beschrijving: Deelklasse van vorigen, met data bij elke tak.
 
 
 enum RichtType
-{
+{ 
 	GERICHT,
 	ONGERICHT
 };

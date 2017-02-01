@@ -41,5 +41,6 @@ int main()
 	cout << "minimum:" << endl;
 	cout << minvan << " -(" << min << ")-> " << minnaar << endl;
 	//    assert(sn.geefCapaciteit()==13);
+	cin.get();
 	return 0;
 }

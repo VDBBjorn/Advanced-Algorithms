@@ -22,6 +22,7 @@
     <ProjectGuid>{2C11CF8C-49BB-4E2C-94FE-9812953F7BD0}</ProjectGuid>
     <RootNamespace>KarpRabinal</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>KarpRabin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -110,7 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="KarpRabinal.h" />
+    <ClInclude Include="KarpRabin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

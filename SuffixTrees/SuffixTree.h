@@ -33,7 +33,7 @@ private:
 	char& NextChar(int i);
 };
 
-inline SuffixTree::SuffixTree(char end) : root(nullptr), endChar(end), active(nullptr), endNode(nullptr), remainingSuffixCount(0)
+inline SuffixTree::SuffixTree(char end) : endChar(end), root(nullptr), active(nullptr), endNode(nullptr), remainingSuffixCount(0)
 {
 }
 

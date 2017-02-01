@@ -57,8 +57,8 @@ protected:
 
 template <class T>
 Vergrotendpadzoeker<T>::Vergrotendpadzoeker(const GraafMetTakdata<GERICHT, T>& _gr, int _van, int _naar, Pad<T>& _pad):
-	pad(_pad), gr(_gr), van(_van), naar(_naar),
-	voorganger(gr.aantalKnopen()), bezocht(gr.aantalKnopen(), false)
+	gr(_gr), pad(_pad), voorganger(gr.aantalKnopen()), bezocht(gr.aantalKnopen(), false),
+	van(_van), naar(_naar)
 {
 	pad.clear();
 	verwerk(van, 0);
@@ -82,7 +82,7 @@ void Vergrotendpadzoeker<T>::verwerk(int knoopnr, int diepte)
 	bezocht[knoopnr] = true;
 	const typename GraafMetTakdata<GERICHT, T>::Knoop& kn = gr[knoopnr];
 	int nudiepte = diepte + 1;
-	for (typename GraafMetTakdata<GERICHT, T>::Knoop::const_iterator it = kn.begin(); it != kn.end(); it++)
+	for (auto it = kn.begin(); it != kn.end(); it++)
 	{
 		int kind = it->first;
 		if (*gr.geefTakdata(knoopnr, kind) > 0)
@@ -106,24 +106,6 @@ void Vergrotendpadzoeker<T>::verwerk(int knoopnr, int diepte)
 				verwerk(kind, nudiepte);
 			}
 		}
-	}
-}
-
-template <RichtType RT, class Takdata>
-void GraafMetTakdata<RT, Takdata>::wordMaxStroomVan(const GraafMetTakdata<RT, Takdata>& netwerk, int producent, int verbruiker)
-{
-	if (!isGericht())
-		throw GraafExceptie("Ongerichte grafen zijn geen stroomnetwerken.");
-	zetAantalKnopen(netwerk.aantalKnopen());
-	GraafMetTakdata<GERICHT, Takdata> restnetwerk = netwerk;
-	Pad<Takdata> vergrotendPad;
-
-	restnetwerk.geefVergrotendPad(vergrotendPad, producent, verbruiker);
-	while (vergrotendPad.size() != 0)
-	{
-		restnetwerk -= vergrotendPad;
-		*this += vergrotendPad;
-		restnetwerk.geefVergrotendPad(vergrotendPad, producent, verbruiker);
 	}
 }
 
