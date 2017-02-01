@@ -9,8 +9,8 @@ class KarpRabin
 public:
 	KarpRabin(string text, string pattern) : text(text), pattern(pattern)
 	{
-
 	}
+
 	vector<int>& Search();
 protected:
 	string text, pattern;
@@ -30,12 +30,12 @@ inline vector<int>& KarpRabin::Search()
 	int h = 1;
 	for (int i = 0; i < pattern.size() - 1; i++)
 	{
-		h = (h*d) % r;
+		h = (h * d) % r;
 	}
-	for (int i = 0; i<p; i++)
+	for (int i = 0; i < p; i++)
 	{
-		p0 = (d*p0 + pattern[i]) % r;
-		t0 = (d*t0 + text[i]) % r;
+		p0 = (d * p0 + pattern[i]) % r;
+		t0 = (d * t0 + text[i]) % r;
 	}
 
 	int tj = t0;
@@ -45,7 +45,7 @@ inline vector<int>& KarpRabin::Search()
 		if (p0 == tj)
 		{
 			int j = 0;
-			while (j<p && text[i + j] == pattern[j])
+			while (j < p && text[i + j] == pattern[j])
 			{
 				j++;
 			}
@@ -56,7 +56,7 @@ inline vector<int>& KarpRabin::Search()
 		}
 		if (i < t - p)
 		{
-			tj = ((tj - text[i] * h)*d + text[i + p]) % r;
+			tj = ((tj - text[i] * h) * d + text[i + p]) % r;
 			if (tj < 0)
 			{
 				tj = tj + r;
