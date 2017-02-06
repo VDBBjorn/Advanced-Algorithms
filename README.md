@@ -91,7 +91,7 @@ Feel free to open up pull requests.
 	* ~~Sunday~~
 	* Good suffix
 
-* Karp-Rabinal
+* ~~Karp-Rabinal~~
 
 * ~~Shift-And~~
 
