@@ -7,6 +7,8 @@ Use Visual Studio to open the solution and compile all the projects at once. All
 ## Note
 It might also be possible to use these with the GNU C++ compiler, although this has not been tested.
 
+Feel free to open up pull requests.
+
 ## TODO
 * Search trees
 	* ~~Search~~	
@@ -89,7 +91,7 @@ It might also be possible to use these with the GNU C++ compiler, although this 
 	* ~~Sunday~~
 	* Good suffix
 
-* Karp-Rabinal
+* ~~Karp-Rabinal~~
 
 * ~~Shift-And~~
 
